@@ -24,6 +24,7 @@ interface DefaultConfig {
       title: string;
       to: string;
       target: string;
+      category?: string; // Add this line
       links: ({
         title: string;
         to: string;

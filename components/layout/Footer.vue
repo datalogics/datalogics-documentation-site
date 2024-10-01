@@ -1,6 +1,8 @@
 <template>
-  <footer class="py-6 text-muted-foreground md:px-8 md:py-0">
-    <div class="container flex flex-col items-center justify-between gap-2 md:h-24 md:flex-row">
+  <footer class="py-6 text-foreground md:px-8 md:py-0">
+    <div
+      class="container flex flex-col items-center justify-between gap-2 md:h-24 md:flex-row"
+    >
       <span class="text-sm">
         {{ footer.credits }}
       </span>
@@ -11,8 +13,12 @@
         :to="link?.to"
         :target="link?.target"
       >
-        <UiButton variant="ghost" :size="link?.icon && !link?.title ? 'icon' : 'default'" class="flex gap-2">
-          <SmartIcon v-if="link?.icon" :name="link.icon" :size="20" />
+        <UiButton
+          variant="ghost"
+          :size="link?.icon && !link?.title ? 'icon' : 'default'"
+          class="flex gap-2"
+        >
+          <Icon v-if="link?.icon" :name="link.icon" size="20" />
           <span v-if="link?.title">{{ link.title }}</span>
         </UiButton>
       </NuxtLink>

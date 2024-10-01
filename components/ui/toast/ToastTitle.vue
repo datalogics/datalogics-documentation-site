@@ -5,9 +5,9 @@
 </template>
 
 <script setup lang="ts">
-import { cn } from '@/lib/utils';
+import { type HTMLAttributes, computed } from 'vue';
 import { ToastTitle, type ToastTitleProps } from 'radix-vue';
-import { computed, type HTMLAttributes } from 'vue';
+import { cn } from '@/lib/utils';
 
 const props = defineProps<ToastTitleProps & { class?: HTMLAttributes['class'] }>();
 

@@ -3,8 +3,8 @@
     <li v-for="link in links" :key="link.id" class="pt-2">
       <NuxtLink
         :to="`#${link.id}`"
-        class="text-muted-foreground transition-all hover:text-primary"
-        :class="[activeHeadings.includes(link.id) && 'text-primary']"
+        class="text-primary transition-all hover:text-foreground"
+        :class="[activeHeadings.includes(link.id) && 'text-primary-foreground']"
       >
         {{ link.text }}
       </NuxtLink>
@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import type { TocLink } from '@nuxt/content';
+import type { TocLink } from "@nuxt/content";
 
 defineProps<{
   links: TocLink[];
@@ -25,10 +25,10 @@ const { activeHeadings, updateHeadings } = useScrollspy();
 
 onMounted(() =>
   updateHeadings([
-    ...document.querySelectorAll('.docs-content h1'),
-    ...document.querySelectorAll('.docs-content h2'),
-    ...document.querySelectorAll('.docs-content h3'),
-    ...document.querySelectorAll('.docs-content h4'),
-  ]),
+    ...document.querySelectorAll(".docs-content h1"),
+    ...document.querySelectorAll(".docs-content h2"),
+    ...document.querySelectorAll(".docs-content h3"),
+    ...document.querySelectorAll(".docs-content h4"),
+  ])
 );
 </script>

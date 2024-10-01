@@ -1,13 +1,21 @@
 <template>
-  <main class="relative py-6" :class="[config.toc.enable && 'lg:grid lg:grid-cols-[1fr_200px] lg:gap-10 lg:py-8']">
+  <main
+    class="relative py-6"
+    :class="[
+      config.toc.enable && 'lg:grid lg:grid-cols-[1fr_200px] lg:gap-10 lg:py-8',
+    ]"
+  >
     <div class="mx-auto w-full min-w-0">
-      <LayoutBreadcrumb v-if="page?.body && config.main.breadCrumb" class="mb-4" />
+      <LayoutBreadcrumb
+        v-if="page?.body && config.main.breadCrumb"
+        class="mb-4"
+      />
 
       <div v-if="config.main.showTitle" class="mb-6 space-y-2">
         <ProseH1>
           {{ page?.title }}
         </ProseH1>
-        <p class="text-lg text-muted-foreground">
+        <p class="text-lg text-secondary">
           {{ page?.description }}
         </p>
       </div>
@@ -17,7 +25,9 @@
         title="Empty Page"
         icon="lucide:circle-x"
       >
-        Start writing in <ProseCodeInline>content/{{ page?._file }}</ProseCodeInline> to see this page taking shape.
+        Start writing in
+        <ProseCodeInline>content/{{ page?._file }}</ProseCodeInline> to see this
+        page taking shape.
       </Alert>
 
       <ContentRenderer
@@ -42,7 +52,7 @@ const { page } = useContent();
 const config = useConfig();
 
 useSeoMeta({
-  title: `${page.value?.title ?? '404'} - ${config.value.site.name}`,
+  title: `${page.value?.title ?? "404"} - ${config.value.site.name}`,
   ogTitle: page.value?.title,
   description: page.value?.description,
 });

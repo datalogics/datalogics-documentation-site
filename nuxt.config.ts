@@ -1,5 +1,5 @@
-import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
 
@@ -12,8 +12,8 @@ export default defineNuxtConfig({
     '@nuxt/content',
     '@nuxt/image',
     '@nuxt/icon',
-    '@nuxtjs/color-mode',
     '@nuxthq/studio',
+    '@nuxtjs/color-mode',
   ],
   shadcn: {
     prefix: 'Ui',

@@ -1,0 +1,4 @@
+title: PDF Checker
+icon: material-symbols:check-circle-rounded
+navigation.redirect: /pdf-checker/guide
+navigation.category: Command-line Tools

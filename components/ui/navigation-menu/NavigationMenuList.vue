@@ -13,9 +13,9 @@
 </template>
 
 <script setup lang="ts">
-import { cn } from '@/lib/utils';
+import { type HTMLAttributes, computed } from 'vue';
 import { NavigationMenuList, type NavigationMenuListProps, useForwardProps } from 'radix-vue';
-import { computed, type HTMLAttributes } from 'vue';
+import { cn } from '@/lib/utils';
 
 const props = defineProps<NavigationMenuListProps & { class?: HTMLAttributes['class'] }>();
 

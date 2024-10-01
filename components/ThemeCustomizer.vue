@@ -1,9 +1,7 @@
 <template>
   <div class="grid gap-6">
     <div class="grid space-y-1">
-      <h1 class="text-lg font-semibold text-foreground">
-        Customize
-      </h1>
+      <h1 class="text-lg font-semibold text-foreground">Customize</h1>
       <p class="text-sm text-muted-foreground">
         Pick a style and color for the docs.
       </p>
@@ -18,8 +16,16 @@
             :class="{ 'border-2 border-primary': theme === color }"
             @click="setTheme(color)"
           >
-            <span class="flex size-5 items-center justify-center rounded-full" :style="{ backgroundColor: backgroundColor(color) }">
-              <Icon v-if="theme === color" name="lucide:check" size="16" class="text-white" />
+            <span
+              class="flex size-5 items-center justify-center rounded-full"
+              :style="{ backgroundColor: 'backgroundColor(color)' }"
+            >
+              <Icon
+                v-if="theme === color"
+                name="lucide:check"
+                size="16"
+                class="text-white"
+              />
             </span>
             <span class="text-xs capitalize">{{ color }}</span>
           </UiButton>
@@ -47,7 +53,9 @@
         <UiButton
           class="justify-center gap-2"
           variant="outline"
-          :class="{ 'border-2 border-primary': colorMode.preference === 'light' }"
+          :class="{
+            'border-2 border-primary': colorMode.preference === 'light',
+          }"
           @click="colorMode.preference = 'light'"
         >
           <Icon name="lucide:sun" size="16" />
@@ -56,7 +64,9 @@
         <UiButton
           class="justify-center gap-2"
           variant="outline"
-          :class="{ 'border-2 border-primary': colorMode.preference === 'dark' }"
+          :class="{
+            'border-2 border-primary': colorMode.preference === 'dark',
+          }"
           @click="colorMode.preference = 'dark'"
         >
           <Icon name="lucide:moon" size="16" />
@@ -65,7 +75,9 @@
         <UiButton
           class="justify-center gap-2"
           variant="outline"
-          :class="{ 'border-2 border-primary': colorMode.preference === 'system' }"
+          :class="{
+            'border-2 border-primary': colorMode.preference === 'system',
+          }"
           @click="colorMode.preference = 'system'"
         >
           <Icon name="lucide:monitor" size="16" />
@@ -77,24 +89,24 @@
 </template>
 
 <script setup lang="ts">
-import { themes } from '@/lib/registry/themes';
+import { themes } from "@/lib/registry/themes";
 
 const { themeClass, theme, radius, setTheme, setRadius } = useThemes();
 
 // Create an array of color values
 const allColors: Color[] = [
-  'zinc',
-  'rose',
-  'blue',
-  'green',
-  'orange',
-  'red',
-  'slate',
-  'stone',
-  'gray',
-  'neutral',
-  'yellow',
-  'violet',
+  "zinc",
+  "rose",
+  "blue",
+  "green",
+  "orange",
+  "red",
+  "slate",
+  "stone",
+  "gray",
+  "neutral",
+  "yellow",
+  "violet",
 ];
 
 const RADII = [0, 0.25, 0.5, 0.75, 1];
@@ -110,18 +122,18 @@ watch(radius, () => {
 });
 
 function setClassTheme() {
-  document.body.classList.remove(
-    ...allColors.map(color => `theme-${color}`),
+  document.documentElement.classList.remove(
+    ...allColors.map((color) => `theme-${color}`)
   );
-  document.body.classList.add(themeClass.value);
+  document.documentElement.classList.add(themeClass.value);
 }
 
 function setStyleRadius() {
-  document.body.style.setProperty('--radius', `${radius.value}rem`);
+  document.documentElement.style.setProperty("--radius", `${radius.value}rem`);
 }
 
 function backgroundColor(color: Color) {
-  const bg = themes.find(theme => theme.name === color);
+  const bg = themes.find((theme) => theme.name === color);
   return `hsl(${bg?.activeColor.light})`;
 }
 

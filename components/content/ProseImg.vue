@@ -9,8 +9,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useRuntimeConfig } from '#imports';
 import { joinURL, withLeadingSlash, withTrailingSlash } from 'ufo';
+import { computed, useRuntimeConfig } from '#imports';
 
 const props = defineProps({
   src: {

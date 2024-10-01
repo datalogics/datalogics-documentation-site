@@ -2,7 +2,6 @@
   <NuxtLink
     :href="href"
     :target="target"
-    :external="external"
     class="font-semibold underline underline-offset-4"
   >
     <slot />
@@ -19,11 +18,6 @@ defineProps({
   },
   target: {
     type: String as PropType<'_blank' | '_parent' | '_self' | '_top' | (string & object) | null | undefined>,
-    default: undefined,
-    required: false,
-  },
-  external: {
-    type: Boolean,
     default: undefined,
     required: false,
   },

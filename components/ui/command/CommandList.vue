@@ -7,10 +7,10 @@
 </template>
 
 <script setup lang="ts">
+import { type HTMLAttributes, computed } from 'vue';
 import type { ComboboxContentEmits, ComboboxContentProps } from 'radix-vue';
-import { cn } from '@/lib/utils';
 import { ComboboxContent, useForwardPropsEmits } from 'radix-vue';
-import { computed, type HTMLAttributes } from 'vue';
+import { cn } from '@/lib/utils';
 
 const props = withDefaults(defineProps<ComboboxContentProps & { class?: HTMLAttributes['class'] }>(), {
   dismissable: false,

@@ -1,42 +1,60 @@
 <template>
   <li
-    class="rounded-md underline-offset-4 transition-all [&:not(:first-child)]:pt-3"
-    :class="[level > 0 && 'pl-4']"
+    class="underline-offset-4 transition-all [&:not(:first-child)]:pt-3"
+    :class="[level > 0 && 'border-l border-foreground pl-4']"
   >
     <UiCollapsible v-if="link.children" v-model:open="isOpen">
       <UiCollapsibleTrigger class="w-full text-left">
-        <div class="flex w-full gap-1">
-          <SmartIcon
+        <NuxtLink
+          :to="link._path"
+          class="flex w-full gap-1 hover:underline"
+          :class="[
+            level === 0
+              ? 'text-white'
+              : isActive
+              ? 'font-medium text-primary'
+              : 'text-foreground',
+          ]"
+        >
+          <Icon
             v-if="link.icon"
             :name="link.icon"
             class="mr-1 self-center"
-            :size="15"
+            size="15"
           />
           <span class="truncate text-nowrap">
-            {{ link.title }}
+            {{ link.navtitle || link.title }}
           </span>
-          <SmartIcon
+          <Icon
+            v-if="link.children"
             name="lucide:chevron-down"
             class="ml-auto self-center transition-all"
             :class="[!isOpen && '-rotate-90']"
           />
-        </div>
+        </NuxtLink>
       </UiCollapsibleTrigger>
       <UiCollapsibleContent>
-        <LayoutAsideTree :links="link.children" :level="level + 1" />
+        <ul class="pl-4">
+          <LayoutAsideTreeItem
+            v-for="childLink in link.children"
+            :key="childLink._path"
+            :link="childLink"
+            :level="level + 1"
+          />
+        </ul>
       </UiCollapsibleContent>
     </UiCollapsible>
     <NuxtLink
       v-else
       :to="link._path"
-      class="flex w-full gap-1 text-muted-foreground hover:underline"
-      :class="[isActive && 'font-medium text-primary']"
+      class="flex w-full gap-1 hover:underline"
+      :class="[isActive ? 'font-medium text-primary' : 'text-foreground']"
     >
-      <SmartIcon
+      <Icon
         v-if="link.icon"
         :name="link.icon"
         class="mr-1 self-center"
-        :size="15"
+        size="15"
       />
       <span class="truncate text-nowrap">
         {{ link.title }}
@@ -46,8 +64,6 @@
 </template>
 
 <script setup lang="ts">
-import type { NavItem } from '@nuxt/content';
-
 const props = defineProps<{
   link: NavItem;
   level: number;
@@ -56,9 +72,21 @@ const props = defineProps<{
 const { collapse } = useConfig().value.aside;
 
 const collapsed = useCollapsedMap();
-const isOpen = ref(collapsed.value.get(props.link._path) || (props.level < 1 && !collapse));
+const isOpen = ref(
+  collapsed.value.get(props.link._path) || (props.level < 1 && !collapse)
+);
 watch(isOpen, (v) => {
   collapsed.value.set(props.link._path, v);
 });
-const isActive = computed(() => props.link._path === useRoute().path);
+
+const route = useRoute();
+const isActive = computed(() => route.path.startsWith(props.link._path));
 </script>
+
+<style scoped>
+/* Add smooth collapsing animation */
+.UiCollapsibleContent {
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  overflow: hidden;
+}
+</style>

@@ -14,7 +14,7 @@
         :level="0"
         :class="[links.length && 'border-b pb-5']"
       />
-      <div v-if="links" class="pt-5 text-muted-foreground">
+      <div v-if="links" class="pt-5 text-popover-foreground">
         <NuxtLink
           v-for="(link, i) in links"
           :key="i"
@@ -22,13 +22,18 @@
           :target="link.target"
           class="flex w-full gap-1 underline-offset-4 hover:underline [&:not(:first-child)]:pt-3"
         >
-          <SmartIcon
+          <Icon
             v-if="link.icon"
             :name="link.icon"
             class="mr-1 self-center"
+            size="16"
           />
           {{ link.title }}
-          <Icon name="lucide:arrow-up-right" class="ml-auto self-center text-muted-foreground" size="13" />
+          <Icon
+            name="lucide:arrow-up-right"
+            class="ml-auto self-center text-muted-foreground"
+            size="13"
+          />
         </NuxtLink>
       </div>
     </UiScrollArea>
@@ -47,7 +52,11 @@
         />
       </UiCollapsibleTrigger>
       <UiCollapsibleContent>
-        <LayoutTocTree :links="toc.links" :level="0" class="mx-4 mb-3 border-l pl-4 text-sm" />
+        <LayoutTocTree
+          :links="toc.links"
+          :level="0"
+          class="mx-4 mb-3 border-l pl-4 text-sm"
+        />
       </UiCollapsibleContent>
     </UiCollapsible>
   </template>
