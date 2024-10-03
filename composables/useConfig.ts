@@ -2,8 +2,8 @@ import { defu } from 'defu';
 
 const defaultConfig: DefaultConfig = {
   site: {
-    name: 'shadcn-docs',
-    description: 'Beautifully designed Nuxt Content template built with shadcn-vue. Customizable. Compatible. Open Source.',
+    name: 'Datalogics Documentation',
+    description: 'Create, edit, manage & manipulate PDFs with our Outrageously Unsexy Software',
     ogImage: '/hero.png',
   },
   theme: {

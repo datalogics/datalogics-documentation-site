@@ -1,5 +1,5 @@
 ---
-title: Home
+title: Datalogics Documentation
 navigation: false
 ---
 

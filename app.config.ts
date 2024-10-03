@@ -2,7 +2,7 @@ export default defineAppConfig({
   shadcnDocs: {
     site: {
       name: 'Datalogics Documentation',
-      description: 'Beautifully designed Nuxt Content template built with shadcn-vue. Customizable. Compatible. Open Source.',
+      description: 'Create, edit, manage & manipulate PDFs with our Outrageously Unsexy Software',
       ogImage: '/hero.png',
     },
     theme: {
