@@ -42,6 +42,10 @@
                     :key="childLink._path"
                     :link="childLink"
                     :level="1"
+                    :open-states="openStates"
+                    :class="[
+                      path === childLink._path && 'font-semibold text-primary',
+                    ]"
                   />
                 </ul>
               </UiCollapsibleContent>
@@ -54,6 +58,7 @@
       v-else
       :links="tree"
       :level="0"
+      :open-states="openStates"
       class="px-3"
       :class="[config.aside.useLevel ? 'pt-4' : 'pt-1']"
     />
@@ -67,11 +72,13 @@ const { navDirFromPath } = useContentHelpers();
 const { navigation } = useContent();
 const config = useConfig();
 
+const route = useRoute();
+const path = computed(() => route.path);
+
 const tree = computed(() => {
-  const route = useRoute();
-  const path = route.path.split("/");
+  const pathParts = route.path.split("/");
   if (config.value.aside.useLevel) {
-    const leveledPath = path.splice(0, 2).join("/");
+    const leveledPath = pathParts.splice(0, 2).join("/");
 
     const dir = navDirFromPath(leveledPath, navigation.value);
     return dir ?? [];
@@ -79,8 +86,6 @@ const tree = computed(() => {
 
   return navigation.value;
 });
-
-const path = computed(() => useRoute().path);
 
 const categorizedLinks = computed(() => {
   const categories = {};
@@ -100,6 +105,32 @@ const categorizedLinks = computed(() => {
 
 // Reactive object to store the open state of each link
 const openStates = ref({});
+
+function traverseNavigation(items, path) {
+  items.forEach((link) => {
+    if (path.startsWith(link._path)) {
+      openStates.value[link._path] = true;
+    }
+    if (link.children) {
+      traverseNavigation(link.children, path);
+    }
+  });
+}
+
+function initializeOpenStates() {
+  openStates.value = {};
+  traverseNavigation(navigation.value, path.value);
+}
+
+watch(
+  () => route.path,
+  () => {
+    initializeOpenStates();
+  },
+  { immediate: true }
+);
+
+initializeOpenStates();
 </script>
 
 <style scoped>
