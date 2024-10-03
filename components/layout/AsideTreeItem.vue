@@ -40,6 +40,7 @@
             :key="childLink._path"
             :link="childLink"
             :level="level + 1"
+            :open-states="openStates"
           />
         </ul>
       </UiCollapsibleContent>
@@ -67,14 +68,18 @@
 const props = defineProps<{
   link: NavItem;
   level: number;
+  openStates: Ref<Record<string, boolean>>;
 }>();
 
 const { collapse } = useConfig().value.aside;
 
 const collapsed = useCollapsedMap();
-const isOpen = ref(
-  collapsed.value.get(props.link._path) || (props.level < 1 && !collapse)
-);
+const isOpen = computed({
+  get: () => props.openStates[props.link._path] || false,
+  set: (value) => {
+    props.openStates[props.link._path] = value;
+  },
+});
 watch(isOpen, (v) => {
   collapsed.value.set(props.link._path, v);
 });
