@@ -1,7 +1,7 @@
 <template>
   <li
     class="underline-offset-4 transition-all [&:not(:first-child)]:pt-3"
-    :class="[level > 0 && 'border-l border-foreground pl-4']"
+    :class="[level > 0 && 'border-l border-primary pl-4']"
   >
     <UiCollapsible v-if="link.children" v-model:open="isOpen">
       <UiCollapsibleTrigger class="w-full text-left">
