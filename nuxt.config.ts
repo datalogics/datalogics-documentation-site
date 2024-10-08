@@ -35,7 +35,6 @@ export default defineNuxtConfig({
     join(currentDir, './assets/css/themes.css'),
   ],
   content: {
-    base: '/documentation/',
     documentDriven: true,
     highlight: {
       theme: {
