@@ -90,19 +90,6 @@ const tree = computed(() => {
 const categorizedLinks = computed(() => {
   const categories = {};
   navigation.value.forEach((link) => {
-    // If the link is the root documentation directory, skip it
-    if (link._path === "/documentation") {
-      // Instead, add its children directly to the categories
-      link.children?.forEach((child) => {
-        const category = child.category || "Uncategorized";
-        if (!categories[category]) {
-          categories[category] = [];
-        }
-        categories[category].push(child);
-      });
-      return;
-    }
-
     const category = link.category || "Uncategorized";
     if (!categories[category]) {
       categories[category] = [];

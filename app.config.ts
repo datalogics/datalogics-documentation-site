@@ -14,8 +14,8 @@ export default defineAppConfig({
       title: 'Docs',
       showTitle: true,
       logo: {
-        light: '/documentation/logo.svg',
-        dark: '/documentation/logo-dark.svg',
+        light: '/logo.svg',
+        dark: '/logo-dark.svg',
       },
       darkModeToggle: true,
       // nav: [{
