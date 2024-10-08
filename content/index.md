@@ -18,7 +18,7 @@ Create, edit, manage & manipulate PDFs with our Outrageously Unsexy Software
   ---
   icon: simple-icons:cplusplus
   title: C++
-  to: adobe-pdf-library/c-plus-plus/getting-started
+  to: /documentation/adobe-pdf-library/c-plus-plus/getting-started
   ---
   Built upon Adobe source code used for Acrobat, Datalogics Adobe PDF Library SDK provides stable, reliable code and the flexibility to develop with C++
   :::
@@ -27,7 +27,7 @@ Create, edit, manage & manipulate PDFs with our Outrageously Unsexy Software
   ---
   icon: simple-icons:dotnet
   title: .NET
-  to: /adobe-pdf-library/dot-net/getting-started
+  to: /documentation/adobe-pdf-library/dot-net/getting-started
   ---
   Built upon Adobe source code used for Acrobat, Datalogics Adobe PDF Library SDK provides stable, reliable code and the flexibility to develop with C# or VB (VB.NET)
   :::
@@ -36,7 +36,7 @@ Create, edit, manage & manipulate PDFs with our Outrageously Unsexy Software
   ---
   icon: simple-icons:dotnet
   title: .NET Framework
-  to: /adobe-pdf-library/dot-net-fw/getting-started
+  to: /documentation/adobe-pdf-library/dot-net-fw/getting-started
   ---
   Built upon Adobe source code used for Acrobat, Datalogics Adobe PDF Library SDK provides stable, reliable code and the flexibility to develop with C# or VB (VB.NET)
   :::
@@ -45,7 +45,7 @@ Create, edit, manage & manipulate PDFs with our Outrageously Unsexy Software
   ---
   icon: ri:java-line
   title: Java
-  to: /adobe-pdf-library/java/getting-started
+  to: /documentation/adobe-pdf-library/java/getting-started
   ---
   Built upon Adobe source code used for Acrobat, Datalogics Adobe PDF Library SDK provides stable, reliable code and the flexibility to develop with Java
   :::
@@ -56,7 +56,7 @@ Create, edit, manage & manipulate PDFs with our Outrageously Unsexy Software
 ::card
 ---
 icon: material-symbols:convert-to-text-rounded
-to: /adobe-pdf-converter/read-me
+to: /documentation/adobe-pdf-converter/read-me
 ---
 #title
 Adobe PDF Converter
@@ -68,7 +68,7 @@ Quickly convert Encapsulated PostScript and PostScript files to PDF for easier v
 ::card
 ---
 icon: fluent:form-new-24-filled
-to: /adobe-pdf-forms-extension/guide
+to: /documentation/adobe-pdf-forms-extension/guide
 ---
 #title
 Forms Extension™
@@ -88,7 +88,7 @@ Extend digital document support to PDFs with static XFA, dynamic XFA and AcroFor
   ---
   icon: icon-park-solid:check-one
   title: PDF Checker
-  to: /adobe-pdf-library/dot-net/getting-started
+  to: /documentation/adobe-pdf-library/dot-net/getting-started
   ---
   Detect PDF Errors Before They Affect Business
   :::
@@ -97,7 +97,7 @@ Extend digital document support to PDFs with static XFA, dynamic XFA and AcroFor
   ---
   icon: fluent:mobile-optimized-20-filled
   title: PDF Optimizer
-  to: /pdf-optimizer/guide
+  to: /documentation/pdf-optimizer/guide
   ---
   Improve PDF performance without compromising document quality.
   :::
@@ -106,7 +106,7 @@ Extend digital document support to PDFs with static XFA, dynamic XFA and AcroFor
   ---
   icon: icon-park-outline:figma-flatten-selection
   title: PDF Forms Flattener
-  to: /pdf-forms-flattener/guide
+  to: /documentation/pdf-forms-flattener/guide
   ---
   Flatten AcroForm, Static XFA and Dynamic XFA Documents
   :::
@@ -115,7 +115,7 @@ Extend digital document support to PDFs with static XFA, dynamic XFA and AcroFor
   ---
   icon: solar:flip-horizontal-bold
   title: FLIP2PDF
-  to: /flip-2-pdf/guide
+  to: /documentation/flip-2-pdf/guide
   ---
   Convert Office, HTML, PostScript & EPS Files to PDF
   :::
@@ -124,7 +124,7 @@ Extend digital document support to PDFs with static XFA, dynamic XFA and AcroFor
   ---
   icon: material-symbols:print-connect-rounded
   title: PDF2PRINT
-  to: /pdf-2-print/guide
+  to: /documentation/pdf-2-print/guide
   ---
   Automate Your Printing Process
   :::
