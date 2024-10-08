@@ -99,7 +99,7 @@ export default defineAppConfig({
         },
         {
           icon: 'lucide:github',
-          to: 'https://github.com/ZTL-UwU/shadcn-docs-nuxt',
+          to: 'https://github.com/datalogics',
           target: '_blank',
         },
       ],
