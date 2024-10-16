@@ -5,6 +5,13 @@ const currentDir = dirname(fileURLToPath(import.meta.url));
 
 export default defineNuxtConfig({
 
+  plugins: [
+    {
+      src: '~/plugins/vue-matomo.client.js',
+      ssr: false,
+    },
+  ],
+
   devtools: { enabled: true },
   modules: [
     '@nuxtjs/tailwindcss',
