@@ -71,7 +71,7 @@ Extend digital document support to PDFs with static XFA, dynamic XFA and AcroFor
 ::card
 ---
 icon: bi:image-fill
-to: /adobe-pdf-forms-extension/guide
+to: /pdf-2-img-c-sdk/guide
 ---
 #title
 PDF2IMG C SDK
