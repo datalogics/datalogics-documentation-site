@@ -77,6 +77,18 @@ Forms Extension™
 Extend digital document support to PDFs with static XFA, dynamic XFA and AcroForm content.
 ::
 
+::card
+---
+icon: fluent:form-new-24-filled
+to: /adobe-pdf-forms-extension/guide
+---
+#title
+PDF2IMG C SDK
+
+#content
+An SDK to Convert PDFs into High-Quality Image Files
+::
+
 ## **Command-line Tools**
 
 ::card-group
