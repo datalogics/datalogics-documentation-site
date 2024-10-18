@@ -16,15 +16,6 @@ Create, edit, manage & manipulate PDFs with our Outrageously Unsexy Software
 ::card-group
   :::card
   ---
-  icon: simple-icons:cplusplus
-  title: C++
-  to: adobe-pdf-library/c-plus-plus/getting-started
-  ---
-  Built upon Adobe source code used for Acrobat, Datalogics Adobe PDF Library SDK provides stable, reliable code and the flexibility to develop with C++
-  :::
-
-  :::card
-  ---
   icon: simple-icons:dotnet
   title: .NET
   to: /adobe-pdf-library/dot-net/getting-started
@@ -79,7 +70,7 @@ Extend digital document support to PDFs with static XFA, dynamic XFA and AcroFor
 
 ::card
 ---
-icon: fluent:form-new-24-filled
+icon: bi:image-fill
 to: /adobe-pdf-forms-extension/guide
 ---
 #title
