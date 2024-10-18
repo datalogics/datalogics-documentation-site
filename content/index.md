@@ -77,7 +77,7 @@ to: /adobe-pdf-forms-extension/guide
 PDF2IMG C SDK
 
 #content
-An SDK to Convert PDFs into High-Quality Image Files
+An SDK to convert PDFs into high-quality image files
 ::
 
 ## **Command-line Tools**
