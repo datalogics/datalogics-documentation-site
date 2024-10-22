@@ -16,20 +16,11 @@ Create, edit, manage & manipulate PDFs with our Outrageously Unsexy Software
 ::card-group
   :::card
   ---
-  icon: simple-icons:cplusplus
-  title: C++
-  to: adobe-pdf-library/c-plus-plus/getting-started
-  ---
-  Built upon Adobe source code used for Acrobat, Datalogics Adobe PDF Library SDK provides stable, reliable code and the flexibility to develop with C++
-  :::
-
-  :::card
-  ---
   icon: simple-icons:dotnet
   title: .NET
   to: /adobe-pdf-library/dot-net/getting-started
   ---
-  Built upon Adobe source code used for Acrobat, Datalogics Adobe PDF Library SDK provides stable, reliable code and the flexibility to develop with C# or VB (VB.NET)
+  Built upon Adobe source code used for Acrobat, Datalogics Adobe PDF Library SDK gives you the flexibility to develop with NuGet using C# or VB (VB.NET) samples
   :::
 
   :::card
@@ -38,7 +29,7 @@ Create, edit, manage & manipulate PDFs with our Outrageously Unsexy Software
   title: .NET Framework
   to: /adobe-pdf-library/dot-net-fw/getting-started
   ---
-  Built upon Adobe source code used for Acrobat, Datalogics Adobe PDF Library SDK provides stable, reliable code and the flexibility to develop with C# or VB (VB.NET)
+  Built upon Adobe source code used for Acrobat, Datalogics Adobe PDF Library SDK gives you the flexibility to develop with NuGet using C# or VB (VB.NET) samples
   :::
 
   :::card
@@ -47,7 +38,16 @@ Create, edit, manage & manipulate PDFs with our Outrageously Unsexy Software
   title: Java
   to: /adobe-pdf-library/java/getting-started
   ---
-  Built upon Adobe source code used for Acrobat, Datalogics Adobe PDF Library SDK provides stable, reliable code and the flexibility to develop with Java
+  Built upon Adobe source code used for Acrobat, Datalogics Adobe PDF Library SDK gives you the flexibility to develop with Java using Maven or Kotlin samples
+  :::
+
+  :::card
+  ---
+  icon: simple-icons:cplusplus
+  title: C++
+  to: /adobe-pdf-library/c-plus-plus/getting-started
+  ---
+  Built upon Adobe source code used for Acrobat, Datalogics Adobe PDF Library SDK gives you the flexibility to develop with C++
   :::
 ::
 
@@ -75,6 +75,18 @@ Forms Extension™
 
 #content
 Extend digital document support to PDFs with static XFA, dynamic XFA and AcroForm content.
+::
+
+::card
+---
+icon: bi:image-fill
+to: /pdf-2-img-c-sdk/guide
+---
+#title
+PDF2IMG C SDK
+
+#content
+An SDK to convert PDFs into high-quality image files
 ::
 
 ## **Command-line Tools**
