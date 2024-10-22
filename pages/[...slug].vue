@@ -36,8 +36,6 @@
         :value="page"
         class="docs-content"
       />
-
-      <LayoutPrevNext />
     </div>
     <div v-if="config.toc.enable" class="hidden text-sm lg:block">
       <div class="sticky top-[90px] h-[calc(100vh-3.5rem)] overflow-hidden">
