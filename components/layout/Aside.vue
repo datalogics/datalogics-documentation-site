@@ -62,6 +62,16 @@
       class="px-3"
       :class="[config.aside.useLevel ? 'pt-4' : 'pt-1']"
     />
+    <div class="">
+      <h3 class="my-3 font-bold text-primary-foreground">Other Resources</h3>
+      <NuxtLink
+        to="https://kb.datalogics.com/"
+        class="mb-1 flex w-full gap-2 rounded-md px-3 py-2 transition-all hover:bg-muted"
+      >
+        <Icon name="your-icon-name" class="self-center" size="16" />
+        Knowledge Base
+      </NuxtLink>
+    </div>
   </UiScrollArea>
 </template>
 

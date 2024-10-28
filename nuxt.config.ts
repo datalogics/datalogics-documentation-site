@@ -15,6 +15,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@nuxtjs/tailwindcss',
+    'nuxt-gtag',
     'shadcn-nuxt',
     '@vueuse/nuxt',
     '@nuxt/content',
@@ -23,6 +24,20 @@ export default defineNuxtConfig({
     '@nuxthq/studio',
     '@nuxtjs/color-mode',
   ],
+
+  gtag: {
+    id: 'G-Y2P2CZ9B8N',
+    initCommands: [
+      // Setup up consent mode
+      ['consent', 'default', {
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        ad_storage: 'denied',
+        analytics_storage: 'denied',
+        wait_for_update: 500,
+      }],
+    ],
+  },
   shadcn: {
     prefix: 'Ui',
     componentDir: join(currentDir, './components/ui'),
