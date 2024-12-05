@@ -27,6 +27,6 @@ These are the FLIP2PDF default settings:
 | output             | PDF file                                                         |
 | compression method | jpeg                                                             |
 | downsampling       | All images are downsampled by default to 300 DPI                 |
-| tagged PDF         | Do not create a tagged PDF document when creating an Office file |
+| tagged PDFs        | Do not create a tagged PDF document when creating an Office file |
 
 In other words, if you don’t include a JSON profile in your command line statement FLIP2PDF will generate a standard PDF document. The file will not be tagged, and any graphics found in a PostScript or Microsoft source document or on a web page will be downsampled to 300 DPI and compressed using the jpeg compression method. Also, the fonts used by the PDF output file will be embedded in that PDF file.
