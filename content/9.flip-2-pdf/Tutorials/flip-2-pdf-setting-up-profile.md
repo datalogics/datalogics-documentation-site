@@ -10,7 +10,7 @@ Every setting for FLIP2PDF is optional. That means then that a setting is only a
 
 :br
 
-You can use the JSON validator JSONLint to check your JSON syntax (https\://jsonlint.com).
+You can use the JSON validator JSONLint to check your JSON syntax (<https://jsonlint.com>).
 
 :br
 
@@ -61,5 +61,5 @@ Page 10
  "page-margin" : "1.0in",
  "page-orientation" : "portrait"
  }
-} 
+}
 ```
