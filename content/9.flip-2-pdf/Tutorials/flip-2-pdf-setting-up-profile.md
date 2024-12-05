@@ -1,0 +1,65 @@
+---
+title: Setting Up Your Profile
+---
+
+Your JSON profile file (or files) should include a list of settings that define exactly what kind of PDF output document you want to produce. We provide a default JSON file called “standard.json.” You can edit this JSON profile as you like or use it as a template for creating your own.
+
+:br
+
+Every setting for FLIP2PDF is optional. That means then that a setting is only applied if it is included in the JSON profile. Flag settings must be set to “on” to be activated. Settings that are turned off do not need to be defined in the JSON profile file.
+
+:br
+
+You can use the JSON validator JSONLint to check your JSON syntax (https\://jsonlint.com).
+
+:br
+
+:br
+
+## The standard.json Profile
+
+This is what the standard.json profile looks like, will all options provided:
+
+```js
+{
+ "postscript": {
+ "color-images": {
+ "downsample" : "on",
+ "downsampling-dpi" : 300,
+ "compression" : "jpeg"
+ },
+ "gray-images": {
+ "downsample" : "on",
+ "downsampling-dpi" : 300,
+ "compression" : "jpeg"
+ },
+ "mono-images": {
+ "downsample" : "on",
+ "downsampling-dpi" : 300
+ },
+ "rotate-pages" : "all",
+ "pdf-output-type" : "PDF"
+ },
+ "office": {
+ "images": {
+ "downsample" : "on",
+ "downsampling-dpi" : 300,
+ "compression" : "jpeg"
+ },
+ "tagged-pdf" : "off",
+ "pdf-output-type" : "PDF"
+ },
+ "html": {
+ "images": {
+Page 10
+ "downsample" : "on",
+ "downsampling-dpi" : 300,
+ "compression" : "jpeg"
+ },
+ "web-layout" : "desktop",
+ "page-size" : "letter",
+ "page-margin" : "1.0in",
+ "page-orientation" : "portrait"
+ }
+} 
+```
