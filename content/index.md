@@ -2,14 +2,9 @@
 title: Datalogics Documentation
 navigation: false
 ---
-
 ::hero
 #title
-Welcome to
-
-:br
-
-Datalogics Documentation
+Welcome to Datalogics Documentation
 
 #description
 Create, edit, manage & manipulate PDFs with our Outrageously Unsexy Software
