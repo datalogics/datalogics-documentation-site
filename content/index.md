@@ -2,6 +2,7 @@
 title: Datalogics Documentation
 navigation: false
 ---
+
 ::hero
 #title
 Welcome to Datalogics Documentation
