@@ -6,7 +6,7 @@ You can make your use of PDF2PRINT simpler by use of a control file. Enter a set
 
 If you want to change the names of the print files in a control file you will need to manually edit that file, but otherwise, if you have a routine where you regularly print a file or a series of files using the same printer, number of copies, page ranges, page size, and so on, you can define these values in a control file and complete your PDF2PRINT commands a lot more quickly.
 
-The control file must use the JSON format, and we recommend that you include the “.json” extension. JSON, or JavaScript Object Notation, is an open standard file format that relies on easily readable English text, and it is used as an alternative to XML. Use the JSON validator found at https\://jsonlint.com/ to check your JSON syntax.
+The control file must use the JSON format, and we recommend that you include the “.json” extension. JSON, or JavaScript Object Notation, is an open standard file format that relies on easily readable English text, and it is used as an alternative to XML. Use the JSON validator found at <https://jsonlint.com/> to check your JSON syntax.
 
 This is the command syntax:
 
@@ -34,42 +34,42 @@ A typical control file might look like this:
 
 ```js
 {
-				 "printer": "London",
-				 "duplex": "long",
-				 "tray": "auto",
-				 "collate": "false",
-				 "copies": 3,
-				 "orientation": "landscape",
-				 "showtrays": false,
-				 "shrinktofit": false,
-				 "input-files": [
-								 {
-												 "file-name": "File1.pdf",
-												 "range": "all"
-								 },
-								 {
-												 "file-name": "File2.pdf",
-												 "range": "even"
-								 },
-								 {
-												 "file-name": "File3.pdf",
-												 "range": "1-1"
-								 },
-								 {
-												 "file-name": "File4.pdf",
-												 "range": "all"
-								 }
-				 ]
+                 "printer": "London",
+                 "duplex": "long",
+                 "tray": "auto",
+                 "collate": "false",
+                 "copies": 3,
+                 "orientation": "landscape",
+                 "showtrays": false,
+                 "shrinktofit": false,
+                 "input-files": [
+                                 {
+                                                 "file-name": "File1.pdf",
+                                                 "range": "all"
+                                 },
+                                 {
+                                                 "file-name": "File2.pdf",
+                                                 "range": "even"
+                                 },
+                                 {
+                                                 "file-name": "File3.pdf",
+                                                 "range": "1-1"
+                                 },
+                                 {
+                                                 "file-name": "File4.pdf",
+                                                 "range": "all"
+                                 }
+                 ]
 }
 ```
 
 If you do not store the PDF print files in the same directory as the control file, you need to provide a path name for each print file in the control file. It would look like this:
 
 ```js
-	 {
-												 "file-name": "C:\\Datalogics\\Print\\File4.pdf",
-												 "range": "all"
-								 }
+     {
+                                                 "file-name": "C:\\Datalogics\\Print\\File4.pdf",
+                                                 "range": "all"
+                                 }
 ```
 
 You can also include a page range for each file. Note that you can only include a single page range for each document you name in the JSON profile.
@@ -78,15 +78,15 @@ If you want, however, to print more than one range of pages for a single file, y
 
 ```js
 {
-												 "file-name": "File2.pdf",
-												 "range": "1-3"
-								 },
-								 {
-												 "file-name": "File2.pdf",
-												 "range": "7-12"
-								 },
-								 {
-												 "file-name": "File2.pdf",
-												 "range": "20-23"
-								 }
+                                                 "file-name": "File2.pdf",
+                                                 "range": "1-3"
+                                 },
+                                 {
+                                                 "file-name": "File2.pdf",
+                                                 "range": "7-12"
+                                 },
+                                 {
+                                                 "file-name": "File2.pdf",
+                                                 "range": "20-23"
+                                 }
 ```
