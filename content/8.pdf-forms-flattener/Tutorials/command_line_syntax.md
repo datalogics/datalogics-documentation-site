@@ -7,5 +7,43 @@ The command syntax for Forms Flattener must include:
 |                   |                                                                                                                                                                                                                                                            |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | PDFFormsFlattener | Executable file name                                                                                                                                                                                                                                       |
-| -i [--input]      | Path to the PDF form input document                                                                                                                                                                                                                        |
-| -o [--output]     | Path to where the output file will be saved. For flattening this file must have the extension PDF. For XFA data export, this file must have extension: .xdp, .xfd, or .xml. For AcroForm data export, this file must have extension: .xfdf, .fdf, or .xml. |
+| -i \[--input]     | Path to the PDF form input document                                                                                                                                                                                                                        |
+| -o \[--output]    | Path to where the output file will be saved. For flattening this file must have the extension PDF. For XFA data export, this file must have extension: .xdp, .xfd, or .xml. For AcroForm data export, this file must have extension: .xfdf, .fdf, or .xml. |
+
+You can also add two optional values:
+
+|                 |                                                                                                                                                                                                                                                                 |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -d \[--import]  | Path to the forms input data file. Use this value to import data into the blank fields on a PDF form document. For XFA documents this file must have extension: xdp, .xfd, or .xml. For AcroForm documents this file must have extension: .xfdf, .fdf, or .xml. |
+| -f \[--flatten] | Set the flattening option. Available options: o true \[default]: flatten the document o skip: skip flattening o asprinted: flatten the document as if it was printed                                                                                            |
+| -c \[--convert] | Convert XFA fields to AcroForm fields.                                                                                                                                                                                                                          |
+
+For each command line option, you can use the short (“-i”) or long (“--input”) notation.
+
+A command statement for the PDF Forms Flattener might look like this:
+
+```js
+PDFFormsFlattener –-input XFDDocument.pdf –-output Flattened_output.pdf 
+-–import datafile.xdp
+```
+
+:br
+
+You might want to draw an input file from one directory and save the output to another. In that event you need to provide the path as well as the file name:
+
+```js
+PDFFormsFlattener –-input C:\Datalogics\InputFiles\XFADocument.pdf –-
+output C:\Datalogics\FlattenedFiles\Flattened_output.pdf
+```
+
+:br
+
+If any of the file or path names include spaces, use quotes around the name:
+
+```js
+PDFFormsFlattener –-input “C:\Datalogics\Optimized 
+Files\XFADocument.pdf” –-output 
+C:\Datalogics\FlattenedFiles\Flattened_output.pdf
+```
+
+The Windows installation program for Forms Flattener adds the location of the executable to the %PATH% Environment Variable, so you can run Forms Flattener from anywhere.
