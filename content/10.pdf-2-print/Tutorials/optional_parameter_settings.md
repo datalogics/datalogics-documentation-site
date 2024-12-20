@@ -1,0 +1,203 @@
+---
+title: Optional Parameter Settings
+---
+
+PDF2PRINT offers a variety of options to manage the print process. If you want to adjust the settings for a print job, PDF2PRINT allows you to:
+
+- Print the pages two sided
+- Print multiple copies of a document, and collate the output pages
+- Select a range of pages to print, or print all odd or all even pages
+- Shrink the content on each page in a document to fit the paper size provided
+- Change the print orientation from portrait to landscape
+- Select a specific input paper tray on the printer
+
+We recommend that you add the options to the command line statement after the printer name and before the print file name. Separate each one with a blank space and include a pair of dashes (--) before each option name.
+
+:br
+
+All statements, values and options entered using PDF2PRINT must use lower case characters.
+
+:br
+
+You can stack up options on the print command, like this:
+
+```js
+pdf2print --printer=”\\London.standard.company.com\Cannon #3” –-copies=3 –-collate=false 
+–-duplex=long --orientation=portrait C:\Datalogics\PrintDocuments\annualreport2016.pdf
+```
+
+:br
+
+If you include more than one PDF file name to print in your command line statement, the options you add to that statement will apply to every print file. For example, if you issue a command to print three PDF files, and add the option “--copies=2,” the printer will print two copies of all three files:
+
+```js
+pdf2print --printer=”\\London.standard.company.com\Cannon #3” –-copies=2
+annualreport2016.pdf annualreport2017.pdf annualreport2018.pdf
+```
+
+:br
+
+This applies to every option except for page range, “--range=” which we explain below. You can add any of these statements to the print command. All of these statements are optional:
+
+:br
+
+## --copies=
+
+Enter the number of copies you want to print. Defaults to one copy of each page.
+
+```js
+pdf2print --printer=”\\London.standard.company.com\Cannon #3” –-copies=3 
+report2016.pdf
+```
+
+## --collate=
+
+If you are printing more than one copy of a document, you can use this option to define whether or not the printed pages are collated. The values are true, false, and default, with the default value being “default.” True means that the pages will be collated, and false means that the pages will not be collated, with both of these statements overriding the printer default. If you set collate equal to default it means to use the printer default option. The --collate option is only relevant when a printer prints more than one copy of a document, so you would normally include it in a command statement with the --copies option.
+
+```js
+pdf2print --printer=”\\London.standard.company.com\Cannon #3” –-copies=3 
+--collate=false report2016.pdf
+```
+
+## --duplex=
+
+Print pages two sided.
+
+- **off:** Turn off two-sided printing, print on one side only
+- **short:** Flip the page on the short edge of the paper, such as the top of an 8½ x 11 inch page
+- **long:** Flip the page on the long edge of the paper
+- **default:** Use the printer default
+
+```js
+pdf2print --printer=”\\London.standard.company.com\Cannon #3” –-duplex=long 
+report2016.pdf
+```
+
+## --orientation=
+
+Select the page orientation for printing:
+
+- landscape
+- portrait
+
+```js
+pdf2print --printer=”\\London.standard.company.com\Cannon #3” 
+–-orientation=landscape report2016.pdf
+```
+
+## --range=
+
+Select a range of pages to print for your document:
+
+- **all:** Print all pages (default)
+- **even:** Print only even pages
+- **odd:** Print only odd pages
+- **n-n:** Enter a range of page numbers to print
+
+```js
+pdf2print --printer=”\\London.standard.company.com\Cannon #3” –-range=5-11 
+report2016.pdf
+```
+
+If you don’t include a “--range=” statement, the printer will print every page in each of the print files named in the command line statement. If you want to include a page range for more than one file in the command line statement, you need to add a “--range=” statement for each print file, next to that file name, like this:
+
+```js
+pdf2print --printer=”\\London.standard.company.com\Cannon #3” –-range=5-11 
+report2016.pdf –-range=1-3 report2017.pdf
+```
+
+If you are specifying more than one page range to print in the command, the number of “- -range” options in the command line statement must match the number of print files.
+
+To specify multiple print ranges for a single file, use the same syntax. Enter each page range separately, but repeat the print file name, like this:
+
+```js
+pdf2print --printer=”\\London.standard.company.com\Cannon #3” –-range=1-3 
+report2017.pdf –-range=15-21 report2017.pdf –-range=33-45 report2017.pdf
+```
+
+This would print pages 1-2, 15-21, and 33-45 for the file called report2017.pdf. Page 5 Keep in mind that the Print2PDF utility counts pages from the first page of the PDF document. You might have a document where the paging starts at page 1 after eight pages of a cover sheet, copyright page, and table of contents. That means that the page you label as the first page in the document is actually page nine. To print the first five pages of text after the front matter, your page range would need to be “--range=9-13”.
+
+## --shrinktofit=
+
+You can direct PDF2PRINT to automatically adjust the size of the content on a document page to fit the paper in the paper tray. The options are true or false. True means that the document will shrink to fit on the page. For example, if you are sending a PDF document with 11” x 16” pages to a printer using 8½” x 11” paper, the utility will automatically shrink the pages in the PDF document to fit. Use False to direct the printer to leave the content its original size, even if more than one sheet is needed to print the content on each page. When you don’t specify this value, it defaults to true.
+
+```js
+pdf2print --printer=”\\London.standard.company.com\Cannon #3” –-shrinktofit=false 
+report2016.pdf
+```
+
+## --tray=
+
+You can use PDF2PRINT to tell the printer which paper tray the print job should use.
+
+You can use the option “--tray=auto” to tell the printer to select the input paper tray based on the size of the page in the print file. In this case the printer selects the input paper tray where the appropriate size of paper is stored. The printer relies on its own default settings. In other words, if:
+
+- a print file is formatted to print on legal size paper (8 ½ x 14 inch),
+- the “--tray” option is set to “auto,” AND
+- the printer by default stores legal paper in tray 2
+
+The printer will pull paper from tray 2 to print the document.
+
+But you can also use the “--tray” option to select a specific input paper tray.
+
+The “--tray=” option is unusual in that before you can select a specific input paper tray, you need to find out what paper trays are available with the printer and learn the codes that the printer assigns to these trays to identify them.
+
+In that case use the “--showtrays” option with a print command to list the available input paper trays, with this syntax:
+
+```js
+pdf2print --printer=printername --showtrays
+```
+
+You aren’t sending a file to the printer yet, so you don’t need to provide a file name or any options. But unless you set the value to “auto” as described above, you can’t use the “--tray=” option without using “--showtrays” first.
+
+The command might look like this:
+
+```js
+pdf2print --printer=”\\London.standard.company.com\Cannon #3” –-showtrays
+```
+
+PDF2PRINT lists the available paper trays for the printer, with output like this:
+
+```js
+Available trays for printer \\\\London.standard.company.com\Cannon #3:
+Name: Tray 1 Letter                         ID: 250
+Name: Tray 2 Letter letterhead              ID: 251
+Name: Tray 3 Letter 3-hole punched          ID: 252
+Name: Tray 4 Legal                          ID: 253
+Name: Tray 5 14 x 17                        ID: 254
+```
+
+For each paper tray, the output includes an identification number.
+
+Note that if you don’t offer a printer name:
+
+```js
+pdf2print --showtrays
+```
+
+The tray names are listed for the system default printer.
+
+After you have the results from the “--showtrays” statement, enter this command line option to define the default paper tray or trays to use for the PDF document you want to print:
+
+```js
+pdf2print --showtrays
+```
+
+The tray names are listed for the system default printer. After you have the results from the “--showtrays” statement, enter this command line option to define the default paper tray or trays to use for the PDF document you want to print:
+
+```js
+--tray=value1
+```
+
+Where the “value” is the ID number provided for the paper tray.
+
+The print command might look like this:
+
+```js
+pdf2print --printer=”\\London.standard.company.com\Cannon #3” –-copies=3 
+–-collate=true -–range=1-2 –-tray=251 report2016.pdf
+```
+
+This command would send a document called Report2016.pdf to the printer “Cannon #3” and generate three copies, collated, using paper drawn from paper tray 2, ID number 251. This command only would print pages 1 and 2 of this document.
+
+Note that you may define only one input tray to use for a print job.
