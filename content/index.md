@@ -100,7 +100,7 @@ An SDK to convert PDFs into high-quality image files
   ---
   icon: icon-park-solid:check-one
   title: PDF Checker
-  to: /adobe-pdf-library/dot-net/getting-started
+  to: /pdf-checker/guide
   ---
   Detect PDF Errors Before They Affect Business
   :::
