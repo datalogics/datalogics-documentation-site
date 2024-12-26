@@ -6,23 +6,23 @@ The command syntax for PDF Checker includes these values:
 
 Required: The executable name, **pdfchecker**
 
-Required: &#x2A;*-i \[--input]** name and path of the PDF input file to review
+Required: \*\*-i \[--input]\*\* name and path of the PDF input file to review
 
-Required: &#x2A;*-j \[--profile]** name and path of the JSON profile file
+Required: \*\*-j \[--profile]\*\* name and path of the JSON profile file
 
 :br
 
-Optional: &#x2A;*-o \[--output]** name and path to assign to the output results file
+Optional: \*\*-o \[--output]\*\* name and path to assign to the output results file
 
-Optional: &#x2A;*-s \[--json-output]** name and path to assign to a JSON output results file
+Optional: \*\*-s \[--json-output]\*\* name and path to assign to a JSON output results file
 
-Optional: &#x2A;*-p \[--password]** password needed to open a protected PDF input file
+Optional: \*\*-p \[--password]\*\* password needed to open a protected PDF input file
 
-Optional: &#x2A;*-n \[--nopath]** remove the system paths to the input PDF or JSON file
+Optional: \*\*-n \[--nopath]\*\* remove the system paths to the input PDF or JSON file
 
-For each command line option, you can use either the short &#x2A;*(“-i”)*&#x2A; or long &#x2A;*(“--input”)** notation.
+For each command line option, you can use either the short \*&#x5F;(“-i”)_\* or long \*\*(“--input”)\*\* notation.
 
-The only value in the command line statement that does not require a matching argument is the last one listed above, &#x2A;*“--nopath”** for removing the path from the input file name.
+The only value in the command line statement that does not require a matching argument is the last one listed above, \*\*“--nopath”\*\* for removing the path from the input file name.
 
 The command syntax for PDF Checker with the required values looks like this:
 
@@ -30,11 +30,11 @@ The command syntax for PDF Checker with the required values looks like this:
 pdfchecker –-input test.pdf –-profile everything.json 
 ```
 
-In this command you are telling the system to inspect the PDF file called &#x2A;*“test.pdf”*&#x2A; using the JSON profile &#x2A;*“everything.json.”**
+In this command you are telling the system to inspect the PDF file called \*&#x5F;“test.pdf”_\* using the JSON profile \*\*“everything.json.”\*\*
 
 PDF Checker will display the results of the review on your command line screen by default.
 
-If you would like the product to export the results to an output file, use the &#x2A;*“--output”** option. Two kinds of output files are available, a text file and a JSON file. The text file is meant to be easy for you to read, while we designed the JSON output report to be machine-readable. You can either display the results report on your console or save it to an export file, or you can do both.
+If you would like the product to export the results to an output file, use the \*\*“--output”\*\* option. Two kinds of output files are available, a text file and a JSON file. The text file is meant to be easy for you to read, while we designed the JSON output report to be machine-readable. You can either display the results report on your console or save it to an export file, or you can do both.
 
 With the JSON output file, you can add the report results from PDF Checker to your own batch process. For example, you can collect and store the results for any PDF document you review with PDF Checker in your own database for later analysis. These are the options that PDF Checker provides when you generate report output:
 
@@ -48,11 +48,11 @@ With the JSON output file, you can add the report results from PDF Checker to yo
 
 Note that you can’t both display a report on your console and save the same content to an output file. It is possible to display both the text and JSON report content on the console, though a need for that seems unlikely. You could simply use PDF Checker to analyze the same PDF document twice instead.
 
-To generate JSON output, you need to use the &#x2A;*“-s”*&#x2A; or &#x2A;*“--json-output -”** value to your command line statement.
+To generate JSON output, you need to use the \*&#x5F;“-s”_\* or \*\*“--json-output -”\*\* value to your command line statement.
 
 You can also enter a password for opening a PDF document if the PDF input file is password protected.
 
-Finally, if you don’t want the path name for the input PDF document or of the JSON Profile file to appear in your output text file, or in the standard output provided by your command line tool, add the value &#x2A;*“--nopath”** to the end of your command line statement. You may want to suppress the place where you store your PDF input files or your JSON profile for security reasons.
+Finally, if you don’t want the path name for the input PDF document or of the JSON Profile file to appear in your output text file, or in the standard output provided by your command line tool, add the value \*\*“--nopath”\*\* to the end of your command line statement. You may want to suppress the place where you store your PDF input files or your JSON profile for security reasons.
 
 The full command syntax for PDF Checker looks like this:
 
@@ -63,7 +63,7 @@ pdfchecker –-input test.pdf –-profile everything.json
 
 :br
 
-Note the use of the &#x2A;*“--json-output”*&#x2A; option instead of &#x2A;*“--output”** in this command statement. If you want to display the JSON output on your command line monitor, you could use this command instead:
+Note the use of the \*&#x5F;“--json-output”_\* option instead of \*\*“--output”\*\* in this command statement. If you want to display the JSON output on your command line monitor, you could use this command instead:
 
 ```js
 pdfchecker –-input test.pdf –-profile everything.json –-json-output -
