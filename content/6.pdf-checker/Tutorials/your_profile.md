@@ -1,0 +1,31 @@
+---
+title: Your JSON Profile
+---
+
+**Setting Up Your Own Profile**
+
+Your JSON profile file (or files) should include a list of settings that define the kinds of checks you want to apply to your PDF documents. You can make your custom profile file as long or as short as you like.
+
+By default, PDF Checker reports if a PDF cannot be opened for one of the following reasons:
+
+1. PDF is password protected and the password was not provided in the command line statement
+2. The PDF document cannot be opened for some other reason.
+
+The message in the report for these conditions can be controlled by the JSON profile. If you don’t provide a message in the JSON profile, the PDF Checker software provides a default message to indicate the PDF could not be opened.
+
+Only use lowercase characters for the keys and values you add to the JSON file.
+
+This sample shows settings used to check for fonts that are not embedded in a PDF document:
+
+```js
+    "uses-fonts-not-embedded": {
+         "check": "on",
+         "report-as-error": "on",
+         "report-message": "Uses fonts not embedded in document",
+         "abort-remaining-checks": "off"
+ }
+```
+
+:br
+
+Here fonts that are not embedded in the PDF document will be reported as errors. PDF Checker will continue processing other checks after this condition is encountered.
