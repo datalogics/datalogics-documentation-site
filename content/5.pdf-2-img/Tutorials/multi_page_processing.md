@@ -1,5 +1,6 @@
 ---
 title: Multi-Page Processing
+description: null
 ---
 
 By default, PDF2IMG converts the pages in a PDF file into multiple single-page image files. The system assigns a name to each image file with an underscore character (\_) added between the file name prefix and the sequence counter number. For example, the five pages in a PDF input file called Convert.PDF would be exported to form five bitmap (BMP) graphic files:

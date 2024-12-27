@@ -1,5 +1,6 @@
 ---
 title: Conversions with Missing Profiles
+description: null
 ---
 
 When creating a PDF document, the best practice is to embed all the fonts that document will need to use in the document itself. That way, the software used to open that PDF document (such as Adobe Reader or Acrobat) does not need to try to find fonts that it needs from the local workstation or laptop or provide substitutes.
