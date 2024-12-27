@@ -1,4 +1,8 @@
-# Successful Review
+---
+title: Successful Review
+---
+
+_**Sample Results JSON File Output: Successful Review**_
 
 This is what a complete JSON results report file would look like when each of the fields controlling the output is specified and PDF Checker completes the review successfully.
 
