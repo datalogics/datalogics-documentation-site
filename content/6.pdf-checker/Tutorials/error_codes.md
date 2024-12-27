@@ -1,0 +1,14 @@
+---
+title: Error Codes
+---
+
+::prose-table
+|      |                                                                                                                                                                                                                |
+| ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1001 | Syntax error. You started PDF Checker and there was an error in your command syntax.                                                                                                                           |
+| 1002 | Profile not found. PDF Checker could not find the profile file you named in your command statement. Check the file name or path for errors.                                                                    |
+| 1003 | Profile invalid. The JSON file you provided as the profile contains syntax errors.                                                                                                                             |
+| 1004 | Invalid flag value. PDF Checker found an unexpected value in the settings in your JSON profile. Key values, such as “uses-fonts-not-embedded” or “XFA-type” as well as the word “on” must always be in quotes. |
+| 1005 | Results file creation/open failure. Check permissions to create or open the results file you have indicated.                                                                                                   |
+| 1006 | Command line is missing input or JSON file.                                                                                                                                                                    |
+::
