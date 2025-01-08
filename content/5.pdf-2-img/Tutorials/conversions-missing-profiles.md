@@ -13,6 +13,4 @@ Likewise, before PDF2IMG starts the process to convert a PDF document to a graph
 
 If the fonts are not embedded in the document PDF2IMG will try to make use of font resources found on the system. PDF2IMG can use environment variables to determine where to find those font resources.
 
-/br
-
 Or the software can provide its own fonts. PDF2IMG offers internal font and CMap resources that are shipped with the product. These font resource files are copied to the installation directory for the PDF2IMG software (where the executable is stored) when you install the product.
