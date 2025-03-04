@@ -1,6 +1,7 @@
 ---
 title: Datalogics Documentation
 navigation: false
+description: Datalogics PDF Software Documentation
 ---
 
 ::hero
