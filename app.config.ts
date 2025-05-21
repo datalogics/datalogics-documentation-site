@@ -90,7 +90,7 @@ export default defineAppConfig({
       },
     },
     footer: {
-      credits: 'Datalogics Inc. Copyright © 2024',
+      credits: 'Datalogics Inc. Copyright © 2025',
       links: [
         {
           title: 'Datalogics Documentation',
