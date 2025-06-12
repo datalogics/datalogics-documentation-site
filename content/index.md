@@ -123,24 +123,6 @@ An SDK to convert PDFs into high-quality image files
   ---
   Flatten AcroForm, Static XFA and Dynamic XFA Documents
   :::
-
-  :::card
-  ---
-  icon: solar:flip-horizontal-bold
-  title: FLIP2PDF
-  to: /flip-2-pdf/guide
-  ---
-  Convert Office, HTML, PostScript & EPS Files to PDF
-  :::
-
-  :::card
-  ---
-  icon: material-symbols:print-connect-rounded
-  title: PDF2PRINT
-  to: /pdf-2-print/guide
-  ---
-  Automate Your Printing Process
-  :::
 ::
 
 ::card
