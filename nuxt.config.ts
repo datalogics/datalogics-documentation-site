@@ -4,10 +4,19 @@ import { dirname, join } from 'node:path';
 const currentDir = dirname(fileURLToPath(import.meta.url));
 
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      kapaWebsiteId: process.env.KAPA_WEBSITE_ID,
+    },
+  },
 
   plugins: [
     {
       src: '~/plugins/vue-matomo.client.js',
+      ssr: false,
+    },
+    {
+      src: '~/plugins/kapa.client.ts',
       ssr: false,
     },
   ],
