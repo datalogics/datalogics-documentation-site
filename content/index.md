@@ -9,7 +9,7 @@ description: Datalogics PDF Software Documentation
 Welcome to Datalogics Documentation
 
 #description
-Create, edit, manage & manipulate PDFs with our Outrageously Unsexy Software
+Solving Complex PDF Workflows
 ::
 
 ## **Adobe PDF Library 18**
