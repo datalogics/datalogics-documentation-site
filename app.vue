@@ -1,6 +1,7 @@
 <template>
   <NuxtLoadingIndicator :color="false" class="z-100 bg-primary/80" />
   <ConfigProvider :use-id="useIdFunction">
+    <LayoutAnnouncementBanner />
     <LayoutHeader />
 
     <div v-if="$route.path !== '/'" class="min-h-screen border-b">
