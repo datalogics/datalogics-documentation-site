@@ -1,5 +1,5 @@
 <template>
-  <div class="scout-button-container">
+  <div v-show="isVisible" class="scout-button-container">
     <button
       class="scout-button"
       :class="{
@@ -9,7 +9,7 @@
       data-tooltip
       @click="openScout"
     >
-      <Icon name="noto:dog" class="scout-icon" />
+      <Icon v-if="isIconLoaded" name="noto:dog" class="scout-icon" />
       <span v-if="showText" class="scout-text">{{ buttonText }}</span>
 
       <!-- Custom tooltip -->
@@ -21,6 +21,8 @@
 </template>
 
 <script setup>
+import { onMounted, ref, watch } from "vue";
+
 defineProps({
   floating: {
     type: Boolean,
@@ -41,6 +43,27 @@ defineProps({
 });
 
 const loading = ref(false);
+const isVisible = ref(false);
+const isIconLoaded = ref(false);
+
+// Check if we're in browser environment
+const isBrowser = typeof window !== "undefined";
+
+// Function to ensure icon is loaded
+async function checkIconLoading() {
+  // Small delay to ensure Nuxt Icon component is initialized
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  isIconLoaded.value = true;
+}
+
+// Function to check URL parameter
+function checkAsKaiParam() {
+  if (typeof window !== "undefined") {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get("askai") === "true";
+  }
+  return false;
+}
 
 // Function to open the Kapa.ai widget
 async function openScout() {
@@ -93,6 +116,33 @@ async function openScout() {
 }
 
 // Expose the open function for external use
+// Watch for route changes
+watch(
+  () => window?.location?.search,
+  () => {
+    if (checkAsKaiParam()) {
+      openScout();
+    }
+  }
+);
+
+// Initialize on mount
+onMounted(async () => {
+  // Ensure we're in browser environment
+  if (!isBrowser) return;
+
+  // Wait for icon to load
+  await checkIconLoading();
+
+  // Show the button
+  isVisible.value = true;
+
+  // Check if we need to open Scout
+  if (checkAsKaiParam()) {
+    openScout();
+  }
+});
+
 defineExpose({
   open: openScout,
 });

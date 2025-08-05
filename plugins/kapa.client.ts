@@ -199,6 +199,25 @@ export default defineNuxtPlugin((nuxtApp) => {
     };
   }
 
+  // Function to check URL and open Kapa if needed
+  function checkAndOpenKapa() {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('askai') === 'true') {
+        const checkKapa = () => {
+          if (window.Kapa?.open) {
+            window.Kapa.open({ mode: 'ai', query: '', submit: false });
+          } else if (window.kapaWidget?.open) {
+            window.kapaWidget.open();
+          } else {
+            setTimeout(checkKapa, 500);
+          }
+        };
+        checkKapa();
+      }
+    }
+  }
+
   // Only run on client-side
   if (typeof window !== 'undefined') {
     // Initialize Kapa.ai when the app is mounted
@@ -206,7 +225,14 @@ export default defineNuxtPlugin((nuxtApp) => {
       // Small delay to ensure DOM is ready
       setTimeout(() => {
         initializeKapaWidget();
+        // Check URL params after initialization
+        checkAndOpenKapa();
       }, 100);
+    });
+
+    // Also watch for route changes
+    nuxtApp.hook('page:finish', () => {
+      checkAndOpenKapa();
     });
   }
 });
