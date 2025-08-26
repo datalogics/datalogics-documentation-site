@@ -125,6 +125,8 @@ An SDK to convert PDFs into high-quality image files
   :::
 ::
 
+## **Developer Resources**
+
 ::card
 ---
 icon: lucide:github
