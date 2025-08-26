@@ -137,3 +137,29 @@ Github
 #content
 Adobe PDF Library - One Complete SDK for All of Your PDF Management Requirements
 ::
+
+::card
+---
+icon: ic:sharp-discord
+target: _blank
+to: https://discord.com/invite/jNSHcSdRre
+---
+#title
+Discord
+
+#content
+Join our Discord server to connect with Datalogics team members
+::
+
+::card
+---
+icon: lucide:discord
+target: _blank
+to: https://www.datalogics.com/?askai=true
+---
+#title
+Scout - AI Assistant
+
+#content
+Ask our AI Assistant Scout for information - gives you quick access to sample code, get started guides & more
+::
