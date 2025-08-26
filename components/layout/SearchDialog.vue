@@ -46,14 +46,14 @@
                 value="light"
                 @click="colorMode.preference = 'light'"
               >
-                <Icon name="lucide:sun" class="mr-2 size-4" />
+                <Icon name="mdi:weather-sunny" class="mr-2 size-4" />
                 <span>Light</span>
               </UiCommandItem>
               <UiCommandItem
                 value="dark"
                 @click="colorMode.preference = 'dark'"
               >
-                <Icon name="lucide:moon" class="mr-2 size-4" />
+                <Icon name="mdi:weather-night" class="mr-2 size-4" />
                 <span>Dark</span>
               </UiCommandItem>
               <UiCommandItem

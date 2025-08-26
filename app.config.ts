@@ -32,8 +32,12 @@ export default defineAppConfig({
       //   }],
       // }],
       links: [{
-        icon: 'lucide:github',
+        icon: 'simple-icons:github',
         to: 'https://github.com/datalogics',
+        target: '_blank',
+      }, {
+        icon: 'simple-icons:discord',
+        to: 'https://discord.gg/jNSHcSdRre',
         target: '_blank',
       }],
     },
@@ -98,7 +102,7 @@ export default defineAppConfig({
           target: '_blank',
         },
         {
-          icon: 'lucide:github',
+          icon: 'simple-icons:github',
           to: 'https://github.com/datalogics',
           target: '_blank',
         },

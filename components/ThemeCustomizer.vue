@@ -58,7 +58,7 @@
           }"
           @click="colorMode.preference = 'light'"
         >
-          <Icon name="lucide:sun" size="16" />
+          <Icon name="mdi:weather-sunny" size="16" />
           <span class="text-xs capitalize">Light</span>
         </UiButton>
         <UiButton
@@ -69,7 +69,7 @@
           }"
           @click="colorMode.preference = 'dark'"
         >
-          <Icon name="lucide:moon" size="16" />
+          <Icon name="mdi:weather-night" size="16" />
           <span class="text-xs capitalize">Dark</span>
         </UiButton>
         <UiButton
