@@ -91,4 +91,29 @@ export default defineNuxtConfig({
     },
   },
   compatibilityDate: '2024-07-05',
+
+  // Build optimizations to reduce memory usage
+  build: {
+    transpile: ['vue-toastification'],
+  },
+
+  // Reduce bundle size and memory usage
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
+  },
+
+  // Disable source maps in production to save memory
+  sourcemap: {
+    server: false,
+    client: false,
+  },
 });
