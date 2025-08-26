@@ -152,9 +152,9 @@ export default defineNuxtPlugin((nuxtApp) => {
     script.setAttribute('data-search-mode-enabled', 'true');
     script.setAttribute('data-search-mode-default', 'false');
 
-    // Example questions and disclaimer
-    script.setAttribute('data-modal-example-questions-title', 'Try asking Scout...');
-    script.setAttribute('data-modal-example-questions', 'How do I enable PDF/A compliance?,How to batch process PDFs with APDFL?,How to convert PDF to image formats?,How can I redact text in a PDF?');
+    // Example questions and disclaimer - disabled
+    // script.setAttribute('data-modal-example-questions-title', 'Try asking Scout...');
+    // script.setAttribute('data-modal-example-questions', 'How do I enable PDF/A compliance?,How to batch process PDFs with APDFL?,How to convert PDF to image formats?,How can I redact text in a PDF?');
     script.setAttribute('data-modal-disclaimer', '🐕 **Scout is your trusty AI companion** who helps track down answers to Datalogics questions by searching through our [documentation](https://dev.datalogics.com/), [website](https://www.datalogics.com/), [knowledge base](https://kb.datalogics.com) and [pinned github repo files](https://github.com/datalogics). Scout is here to help you find exactly what you\'re looking for.&#10;&#10;Scout ([built by kapa.ai](https://kapa.ai)) is deployed on our docs and website to guide you to the information you need.');
 
     // Input placeholder text
