@@ -63,7 +63,7 @@ to: /adobe-pdf-converter/read-me
 Adobe PDF Converter
 
 #content
-Quickly convert Encapsulated PostScript and PostScript files to PDF for easier viewing & distribution.
+Quickly convert Encapsulated PostScript and PostScript files to PDF for easier viewing & distribution
 ::
 
 ::card
@@ -75,7 +75,7 @@ to: /adobe-pdf-forms-extension/guide
 Forms Extension™
 
 #content
-Extend digital document support to PDFs with static XFA, dynamic XFA and AcroForm content.
+Extend digital document support to PDFs with static XFA, dynamic XFA and AcroForm content
 ::
 
 ::card
@@ -112,7 +112,7 @@ An SDK to convert PDFs into high-quality image files
   title: PDF Optimizer
   to: /pdf-optimizer/guide
   ---
-  Improve PDF performance without compromising document quality.
+  Improve PDF performance without compromising document quality
   :::
 
   :::card
@@ -125,6 +125,8 @@ An SDK to convert PDFs into high-quality image files
   :::
 ::
 
+## **Developer Resources**
+
 ::card
 ---
 icon: lucide:github
@@ -136,4 +138,17 @@ Github
 
 #content
 Adobe PDF Library - One Complete SDK for All of Your PDF Management Requirements
+::
+
+::card
+---
+icon: ic:sharp-discord
+target: _blank
+to: https://discord.com/invite/jNSHcSdRre
+---
+#title
+Discord
+
+#content
+Join our Discord server to connect with Datalogics team members
 ::
