@@ -188,6 +188,11 @@ export default defineNuxtConfig({
     },
     '/studio/login': {
       ssr: true,
+      index: false, // Prevent index.html generation
+    },
+    '/studio/login/**': {
+      ssr: true,
+      index: false,
     },
   },
 
@@ -205,6 +210,7 @@ export default defineNuxtConfig({
         '/__nuxt_studio/**',
         '/api/**', // Ignore ALL API routes (not just /api/studio/**)
         '/studio/login', // Login page should also be SSR
+        '/studio/login/**', // Login page with any sub-paths
       ],
     },
     // Ensure serverless function is generated for Studio routes and API routes

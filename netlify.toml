@@ -16,9 +16,21 @@
   status = 200
   force = true
 
-# Login page (SSR)
+# Login page (SSR) - handle exact match and trailing slash
 [[redirects]]
   from = "/studio/login"
+  to = "/.netlify/functions/server"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/studio/login/"
+  to = "/.netlify/functions/server"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/studio/login/*"
   to = "/.netlify/functions/server"
   status = 200
   force = true
