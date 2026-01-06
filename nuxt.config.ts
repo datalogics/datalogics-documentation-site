@@ -173,6 +173,24 @@ export default defineNuxtConfig({
     client: false,
   },
 
+  // Explicitly configure route rules for API routes to ensure SSR
+  routeRules: {
+    '/api/**': { 
+      ssr: true,
+      cors: true,
+      headers: { 'Cache-Control': 's-maxage=0' }
+    },
+    '/_studio/**': {
+      ssr: true,
+    },
+    '/__nuxt_studio/**': {
+      ssr: true,
+    },
+    '/studio/login': {
+      ssr: true,
+    },
+  },
+
   // Nitro configuration for Netlify
   nitro: {
     preset: 'netlify',
@@ -186,18 +204,12 @@ export default defineNuxtConfig({
         '/__nuxt_studio',
         '/__nuxt_studio/**',
         '/api/**', // Ignore ALL API routes (not just /api/studio/**)
+        '/studio/login', // Login page should also be SSR
       ],
     },
     // Ensure serverless function is generated for Studio routes and API routes
     experimental: {
       wasm: true,
-    },
-    // Explicitly include API routes in the serverless function
-    routeRules: {
-      '/api/**': { 
-        cors: true,
-        headers: { 'Cache-Control': 's-maxage=0' }
-      },
     },
   },
 });

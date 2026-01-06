@@ -9,9 +9,16 @@
 # IMPORTANT: Order matters - most specific routes first
 # Studio routes and API routes need SSR (everything else is pre-rendered static)
 
-# API routes - must come before catch-all
+# API routes - must come before catch-all (most specific first)
 [[redirects]]
   from = "/api/*"
+  to = "/.netlify/functions/server"
+  status = 200
+  force = true
+
+# Login page (SSR)
+[[redirects]]
+  from = "/studio/login"
   to = "/.netlify/functions/server"
   status = 200
   force = true
