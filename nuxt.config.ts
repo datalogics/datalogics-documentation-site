@@ -176,7 +176,18 @@ export default defineNuxtConfig({
   // Nitro configuration for Netlify
   nitro: {
     preset: 'netlify',
-    // Ensure serverless function is generated
+    // Pre-render all routes except Studio (which needs SSR)
+    prerender: {
+      crawlLinks: true,
+      ignore: [
+        '/_studio',
+        '/_studio/**',
+        '/__nuxt_studio',
+        '/__nuxt_studio/**',
+        '/api/studio/**',
+      ],
+    },
+    // Ensure serverless function is generated for Studio routes
     experimental: {
       wasm: true,
     },
