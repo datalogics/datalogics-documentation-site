@@ -176,7 +176,7 @@ export default defineNuxtConfig({
   // Nitro configuration for Netlify
   nitro: {
     preset: 'netlify',
-    // Pre-render all routes except Studio (which needs SSR)
+    // Pre-render all routes except Studio and API (which need SSR)
     prerender: {
       crawlLinks: true,
       routes: ['/'], // Start with root, crawler will find the rest via links
@@ -185,19 +185,18 @@ export default defineNuxtConfig({
         '/_studio/**',
         '/__nuxt_studio',
         '/__nuxt_studio/**',
-        '/api/studio/**',
+        '/api/**', // Ignore ALL API routes (not just /api/studio/**)
       ],
     },
-    // Ensure serverless function is generated for Studio routes
+    // Ensure serverless function is generated for Studio routes and API routes
     experimental: {
       wasm: true,
     },
-    // Hook to generate routes from Nuxt Content during prerender
-    hooks: {
-      'prerender:routes'(ctx) {
-        // This hook is called during build - Nuxt Content v3 should automatically
-        // discover routes via the crawler starting from '/'
-        // If routes aren't discovered, they'll fall back to SSR (which is fine for Studio routes)
+    // Explicitly include API routes in the serverless function
+    routeRules: {
+      '/api/**': { 
+        cors: true,
+        headers: { 'Cache-Control': 's-maxage=0' }
       },
     },
   },
