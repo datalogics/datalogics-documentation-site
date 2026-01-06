@@ -6,7 +6,7 @@
   NODE_OPTIONS = "--max-old-space-size=8192"
   NODE_VERSION = "22"
 
-# Nuxt Studio requires SSR - redirect Studio routes to serverless function
+# Studio routes need SSR (everything else is pre-rendered static)
 [[redirects]]
   from = "/__nuxt_studio/*"
   to = "/.netlify/functions/server"
@@ -19,10 +19,8 @@
   status = 200
   force = true
 
-# Hybrid rendering: pre-rendered pages served statically, Studio routes use SSR
-# Netlify will serve pre-rendered files from .output/public if they exist,
-# otherwise fall back to SSR via the serverless function
 [[redirects]]
-  from = "/*"
+  from = "/api/studio/*"
   to = "/.netlify/functions/server"
   status = 200
+  force = true

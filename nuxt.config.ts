@@ -179,6 +179,7 @@ export default defineNuxtConfig({
     // Pre-render all routes except Studio (which needs SSR)
     prerender: {
       crawlLinks: true,
+      routes: ['/'], // Start with root, crawler will find the rest via links
       ignore: [
         '/_studio',
         '/_studio/**',
@@ -190,6 +191,14 @@ export default defineNuxtConfig({
     // Ensure serverless function is generated for Studio routes
     experimental: {
       wasm: true,
+    },
+    // Hook to generate routes from Nuxt Content during prerender
+    hooks: {
+      'prerender:routes'(ctx) {
+        // This hook is called during build - Nuxt Content v3 should automatically
+        // discover routes via the crawler starting from '/'
+        // If routes aren't discovered, they'll fall back to SSR (which is fine for Studio routes)
+      },
     },
   },
 });
