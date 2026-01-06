@@ -31,6 +31,6 @@ export default eventHandler(async (event) => {
     avatar: ''
   })
 
-  // Redirect to root - Studio will detect the session and activate
-  return sendRedirect(event, '/')
+  // Return success - client will redirect to Studio
+  return { ok: true }
 })

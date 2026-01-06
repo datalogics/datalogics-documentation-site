@@ -80,14 +80,39 @@ async function handleLogin() {
       body: {
         email: email.value,
         password: password.value
-      }
+      },
+      credentials: 'include', // Ensure cookies are sent/received
+      timeout: 10000, // 10 second timeout
     })
 
-    if (response.ok) {
-      // Redirect to Studio - it will detect the session
-      await navigateTo('/_studio')
+    if (response?.ok) {
+      // Session is set, verify it before redirecting
+      try {
+        // Wait a moment for cookie to be set
+        await new Promise(resolve => setTimeout(resolve, 200))
+        
+        // Verify session was set
+        const checkResponse = await $fetch('/api/studio/check', {
+          credentials: 'include',
+          timeout: 5000,
+        })
+        
+        if (checkResponse?.authenticated) {
+          // Session confirmed, redirect to root - Studio will detect the session and activate
+          await navigateTo('/')
+        } else {
+          error.value = 'Session was not set correctly. Please try again.'
+        }
+      } catch (checkErr) {
+        console.error('Session check error:', checkErr)
+        // Still try to redirect - Studio might detect it
+        await navigateTo('/')
+      }
+    } else {
+      error.value = 'Login failed. Please check your credentials.'
     }
   } catch (err: any) {
+    console.error('Login error:', err)
     error.value = err.data?.message || err.message || 'Login failed. Please check your credentials.'
   } finally {
     loading.value = false
