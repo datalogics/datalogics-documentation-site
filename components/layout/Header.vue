@@ -4,10 +4,10 @@
     :class="{ 'lg:border-b': config.header.border }"
   >
     <div
-      class="flex h-14 items-center justify-between gap-2 px-4 pt-6 md:px-8"
+      class="flex h-14 items-center justify-between gap-2 px-4 md:px-8 w-full"
       :class="{
         'border-b lg:border-none': config.header.border,
-        'container ': config.main.padded,
+        'container mx-auto': config.main.padded,
       }"
     >
       <LayoutHeaderLogo class="hidden flex-1 md:flex" />

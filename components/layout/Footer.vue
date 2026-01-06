@@ -1,7 +1,8 @@
 <template>
-  <footer class="py-6 text-foreground md:px-8 md:py-0">
+  <footer class="w-full py-6 text-foreground md:px-8 md:py-0">
     <div
-      class="container flex flex-col items-center justify-between gap-2 md:h-24 md:flex-row"
+      class="container mx-auto flex flex-col items-center justify-between gap-2 md:h-24 md:flex-row"
+      :class="{'px-4': !config.main.padded}"
     >
       <span class="text-sm">
         {{ footer.credits }}
@@ -27,5 +28,6 @@
 </template>
 
 <script setup lang="ts">
-const { footer } = useConfig().value;
+const config = useConfig();
+const { footer } = config.value;
 </script>

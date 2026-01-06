@@ -16,13 +16,13 @@
         </h3>
         <ul>
           <li v-for="link in category.links" :key="link.id">
-            <UiCollapsible v-model:open="openStates[link._path]">
+            <UiCollapsible v-model:open="openStates[link.path]">
               <UiCollapsibleTrigger class="w-full text-left">
                 <NuxtLink
-                  :to="link._path"
+                  :to="link.path"
                   class="mb-1 flex w-full gap-2 rounded-md px-3 py-2 transition-all hover:bg-muted"
                   :class="[
-                    path.startsWith(link._path) &&
+                    path.startsWith(link.path) &&
                       'bg-muted font-semibold text-primary hover:bg-muted',
                   ]"
                 >
@@ -39,12 +39,12 @@
                 <ul class="pl-4">
                   <LayoutAsideTreeItem
                     v-for="childLink in link.children"
-                    :key="childLink._path"
+                    :key="childLink.path"
                     :link="childLink"
                     :level="1"
                     :open-states="openStates"
                     :class="[
-                      path === childLink._path && 'font-semibold text-primary',
+                      path === childLink.path && 'font-semibold text-primary',
                     ]"
                   />
                 </ul>
@@ -79,7 +79,10 @@
 defineProps<{ isMobile: boolean }>();
 
 const { navDirFromPath } = useContentHelpers();
-const { navigation } = useContent();
+// Nuxt Content v3: use queryCollectionNavigation instead of useContent()
+const { data: navigation } = useAsyncData('navigation', () => {
+  return queryCollectionNavigation('content');
+});
 const config = useConfig();
 
 const route = useRoute();
@@ -118,8 +121,9 @@ const openStates = ref({});
 
 function traverseNavigation(items, path) {
   items.forEach((link) => {
-    if (path.startsWith(link._path)) {
-      openStates.value[link._path] = true;
+    // Nuxt Content v3: ._path is now .path
+    if (path.startsWith(link.path)) {
+      openStates.value[link.path] = true;
     }
     if (link.children) {
       traverseNavigation(link.children, path);

@@ -20,7 +20,7 @@
       </div>
     </div>
     <span class="text-sm text-muted-foreground">
-      <ContentSlot unwrap="p" />
+      <slot mdc-unwrap="p" />
       {{ description }}
     </span>
   </div>

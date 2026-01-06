@@ -1,7 +1,7 @@
 <template>
   <NuxtLink
-    v-if="prevNext && prevNext._path"
-    :to="prevNext._path"
+    v-if="prevNext && prevNext.path"
+    :to="prevNext.path"
     class="basis-1/3"
   >
     <div

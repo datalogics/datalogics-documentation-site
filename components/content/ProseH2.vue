@@ -1,9 +1,14 @@
 <template>
-  <h2 :id="id" class="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors [&:not(:first-child)]:mt-10">
-    <NuxtLink
-      v-if="id && generate"
-      :href="`#${id}`"
-    >
+  <h2
+    :id="id"
+    class="scroll-m-20 mb-6 mt-12 font-semibold tracking-tight text-foreground transition-colors first:mt-0"
+    :class="[
+      $route.path === '/' && id === 'adobe-pdf-library-18'
+        ? 'text-3xl'
+        : 'text-3xl',
+    ]"
+  >
+    <NuxtLink v-if="id && generate" :href="`#${id}`">
       <slot />
     </NuxtLink>
     <slot v-else />
@@ -11,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+const route = useRoute();
 const props = defineProps<{ id?: string }>();
 
 const { headings } = useRuntimeConfig().public.mdc;

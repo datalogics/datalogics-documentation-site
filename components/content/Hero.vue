@@ -1,6 +1,6 @@
 <template>
   <section
-    class="mx-auto flex max-w-[980px] flex-col items-center gap-2 py-8 md:py-12 md:pb-8 lg:py-24 lg:pb-4"
+    class="mx-auto flex max-w-[980px] flex-col items-center gap-2 pb-4 pt-6 md:pt-8"
   >
     <NuxtLink
       v-if="announcement"
@@ -20,17 +20,18 @@
     </NuxtLink>
 
     <h1
-      class="text-center text-3xl font-bold leading-tight tracking-tighter md:text-6xl lg:leading-[1.1]"
+      ref="titleRef"
+      class="hero-title text-center text-3xl font-bold leading-tight tracking-tighter md:text-6xl lg:leading-[1.1]"
+      :style="{ '--gradient-position': `${gradientPosition}%` }"
     >
-      <ContentSlot :use="$slots.title" unwrap="p" />
+      <slot name="title" mdc-unwrap="p" />
     </h1>
-    <span
-      class="max-w-[750px] text-center text-lg text-primary-foreground sm:text-xl"
-    >
-      <ContentSlot :use="$slots.description" unwrap="p" />
-    </span>
+    <p class="max-w-[750px] text-center text-lg text-secondary sm:text-xl">
+      <slot name="description" mdc-unwrap="p" />
+    </p>
 
     <section
+      v-if="actions && actions.length > 0"
       class="flex w-full items-center justify-center space-x-4 py-4 md:pb-10"
     >
       <NuxtLink
@@ -50,14 +51,16 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+import { ref, onMounted, onUnmounted } from "vue";
+
+const props = defineProps<{
   announcement?: {
     to?: string;
     target?: string;
     icon?: string;
     title: string;
   };
-  actions: [
+  actions?: [
     {
       name: string;
       leftIcon?: string;
@@ -74,4 +77,69 @@ defineProps<{
     }
   ];
 }>();
+
+const titleRef = ref<HTMLElement | null>(null);
+const gradientPosition = ref(50); // Start at center (50%)
+
+const handleMouseMove = (e: MouseEvent) => {
+  // Get viewport width
+  const viewportWidth = window.innerWidth;
+  // Calculate percentage based on mouse X position (0% = left, 100% = right)
+  // Invert so gradient follows mouse direction correctly
+  const percentage = (e.clientX / viewportWidth) * 100;
+  gradientPosition.value = Math.max(0, Math.min(100, 100 - percentage));
+};
+
+onMounted(() => {
+  window.addEventListener("mousemove", handleMouseMove);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("mousemove", handleMouseMove);
+});
 </script>
+
+<style scoped>
+.hero-title {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--foreground)) 0%,
+    hsl(var(--foreground)) 35%,
+    #0c70f2 45%,
+    #f2a20c 55%,
+    #0c70f2 65%,
+    hsl(var(--foreground)) 75%,
+    hsl(var(--foreground)) 100%
+  );
+  background-size: 300% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-position: var(--gradient-position, 50%) 50%;
+  position: relative;
+  display: inline-block;
+  transition: background-position 0.1s ease-out;
+}
+
+.hero-title :deep(*) {
+  background: inherit;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Fallback for browsers that don't support background-clip */
+@supports not (-webkit-background-clip: text) {
+  .hero-title {
+    background: none;
+    -webkit-text-fill-color: hsl(var(--foreground));
+    color: hsl(var(--foreground));
+  }
+
+  .hero-title :deep(*) {
+    background: none;
+    -webkit-text-fill-color: hsl(var(--foreground));
+    color: hsl(var(--foreground));
+  }
+}
+</style>

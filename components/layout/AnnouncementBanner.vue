@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-dl-blue py-2 text-center text-sm text-white">
-    <p class="container">
+  <div class="w-full bg-dl-blue py-2 text-center text-sm text-white">
+    <p class="container mx-auto">
       Join our Discord community for support and discussions!
       <a
         href="https://discord.gg/jNSHcSdRre"

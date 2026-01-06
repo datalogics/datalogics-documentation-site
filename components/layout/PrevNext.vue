@@ -7,5 +7,15 @@
 </template>
 
 <script setup lang="ts">
-const { prev, next } = useContent();
+const route = useRoute();
+
+// Nuxt Content v3: use queryCollectionItemSurroundings instead of useContent()
+const { data: surroundings } = await useAsyncData(`surroundings-${route.path}`, () => {
+  return queryCollectionItemSurroundings('content', route.path, {
+    fields: ['title', 'description', 'path']
+  });
+});
+
+const prev = computed(() => surroundings.value?.prev);
+const next = computed(() => surroundings.value?.next);
 </script>

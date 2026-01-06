@@ -1,8 +1,20 @@
 <template>
   <div class="flex items-center">
     <NuxtLink v-if="logo.light && logo.dark" to="/" class="flex items-center">
-      <NuxtImg :src="logo.light" class="h-10 dark:hidden" />
-      <NuxtImg :src="logo.dark" class="hidden h-10 dark:block" />
+      <!-- Light mode logo (logo.svg) - visible when NOT dark mode -->
+      <NuxtImg 
+        v-if="!isDark"
+        :src="logo.light" 
+        class="h-10"
+        alt="Datalogics Logo"
+      />
+      <!-- Dark mode logo (logo-dark.svg) - visible when dark mode -->
+      <NuxtImg 
+        v-if="isDark"
+        :src="logo.dark" 
+        class="h-10"
+        alt="Datalogics Logo"
+      />
     </NuxtLink>
     <span
       v-if="showTitle && title"
@@ -15,4 +27,7 @@
 
 <script setup lang="ts">
 const { logo, title, showTitle } = useConfig().value.header;
+const colorMode = useColorMode();
+// Make it reactive to color mode changes
+const isDark = computed(() => colorMode.value === 'dark');
 </script>

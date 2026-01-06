@@ -103,8 +103,17 @@ export function useConfig() {
   const appConfig = computed(() => useAppConfig()?.shadcnDocs || {});
 
   const { navKeyFromPath } = useContentHelpers();
-  const { navigation, page } = useContent();
   const route = useRoute();
+  
+  // Nuxt Content v3: use queryCollectionNavigation instead of useContent()
+  const { data: navigation } = useAsyncData('navigation', () => {
+    return queryCollectionNavigation('content');
+  });
+  
+  // Nuxt Content v3: use queryCollection for current page
+  const { data: page } = useAsyncData(`page-${route.path}`, () => {
+    return queryCollection('content').path(route.path).first();
+  });
 
   return computed(
     () => {

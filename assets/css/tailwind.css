@@ -1,6 +1,68 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* Define colors using CSS variables - Tailwind v4 syntax */
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  
+  /* Custom color palettes */
+  --color-green-50: #EFFDF5;
+  --color-green-100: #D9FBE8;
+  --color-green-200: #B3F5D1;
+  --color-green-300: #75EDAE;
+  --color-green-400: #00DC82;
+  --color-green-500: #00C16A;
+  --color-green-600: #00A155;
+  --color-green-700: #007F45;
+  --color-green-800: #016538;
+  --color-green-900: #0A5331;
+  --color-green-950: #052e16;
+  
+  --color-midnight-50: #ecf8ff;
+  --color-midnight-100: #d5edff;
+  --color-midnight-200: #b4e2ff;
+  --color-midnight-300: #81d1ff;
+  --color-midnight-400: #45b5ff;
+  --color-midnight-500: #1b92ff;
+  --color-midnight-600: #0370ff;
+  --color-midnight-700: #0059f8;
+  --color-midnight-800: #0547c8;
+  --color-midnight-900: #0b409d;
+  --color-midnight-950: #051026;
+  
+  --color-dl-blue: #0C70F2;
+  --color-dl-orange: #F2A20C;
+  --color-primary-text-content: #636363;
+  --color-primary-focus: #063573;
+  --color-base-content: #021733;
+  --color-primary-content: #A8CDFB;
+  
+  /* Border radius */
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  
+  /* Container configuration - Tailwind v4 */
+  --container-padding: 2rem;
+}
 
 @layer base {
   :root {
@@ -83,6 +145,13 @@
 @layer base {
   * {
     @apply border-border;
+  }
+
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   body {

@@ -6,7 +6,7 @@
     <UiCollapsible v-if="link.children" v-model:open="isOpen">
       <UiCollapsibleTrigger class="w-full text-left">
         <NuxtLink
-          :to="link._path"
+          :to="link.path"
           class="flex w-full gap-1 hover:underline"
           :class="[
             level === 0
@@ -37,7 +37,7 @@
         <ul class="pl-4">
           <LayoutAsideTreeItem
             v-for="childLink in link.children"
-            :key="childLink._path"
+            :key="childLink.path"
             :link="childLink"
             :level="level + 1"
             :open-states="openStates"
@@ -47,7 +47,7 @@
     </UiCollapsible>
     <NuxtLink
       v-else
-      :to="link._path"
+      :to="link.path"
       class="flex w-full gap-1 hover:underline"
       :class="[isActive ? 'font-medium text-primary' : 'text-foreground']"
     >
@@ -65,8 +65,11 @@
 </template>
 
 <script setup lang="ts">
+// Nuxt Content v3: NavItem is now ContentNavigationItem
+import type { ContentNavigationItem } from '@nuxt/content';
+
 const props = defineProps<{
-  link: NavItem;
+  link: ContentNavigationItem;
   level: number;
   openStates: Ref<Record<string, boolean>>;
 }>();
@@ -75,17 +78,17 @@ const { collapse } = useConfig().value.aside;
 
 const collapsed = useCollapsedMap();
 const isOpen = computed({
-  get: () => props.openStates[props.link._path] || false,
+  get: () => props.openStates[props.link.path] || false,
   set: (value) => {
-    props.openStates[props.link._path] = value;
+    props.openStates[props.link.path] = value;
   },
 });
 watch(isOpen, (v) => {
-  collapsed.value.set(props.link._path, v);
+  collapsed.value.set(props.link.path, v);
 });
 
 const route = useRoute();
-const isActive = computed(() => route.path.startsWith(props.link._path));
+const isActive = computed(() => route.path.startsWith(props.link.path));
 </script>
 
 <style scoped>

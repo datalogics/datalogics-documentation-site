@@ -1,23 +1,34 @@
 <template>
-  <UiDialog v-model:open="open">
-    <UiDialogContent class="p-0">
+  <UiDialog v-model:open="open" @update:open="handleDialogUpdate">
+    <UiDialogContent 
+      class="p-0"
+      @pointer-down-outside="(event) => {
+        // Allow closing even when clicking on autocomplete results
+        handleClose();
+      }"
+      @escape-key-down="handleClose"
+    >
       <VisuallyHidden as-child>
         <UiDialogTitle />
       </VisuallyHidden>
       <VisuallyHidden as-child>
         <UiDialogDescription aria-describedby="undefined" />
       </VisuallyHidden>
-      <UiCommand v-model:search-term="input" class="h-svh sm:h-[350px]">
+      <UiCommand 
+        v-model:search-term="input" 
+        class="h-svh sm:h-[350px]"
+      >
         <UiCommandInput
           :loading="searchLoading"
           :placeholder="placeholderDetailed"
           @keydown.enter="handleEnter"
           @keydown.down="handleNavigate(1)"
           @keydown.up="handleNavigate(-1)"
+          @keydown.escape="handleClose"
         />
-        <UiCommandList class="text-sm" @escape-key-down="open = false">
+        <UiCommandList class="text-sm" @escape-key-down="handleClose">
           <template v-if="!input?.length">
-            <template v-for="item in navigation" :key="item._path">
+            <template v-for="item in navigation" :key="item.path">
               <UiCommandGroup
                 v-if="item.children"
                 :heading="item.title"
@@ -26,9 +37,10 @@
                 <NuxtLink
                   v-for="child in item.children"
                   :key="child.id"
-                  :to="child._path"
+                  :to="child.path"
+                  @click="handleClose"
                 >
-                  <UiCommandItem :value="child._path">
+                  <UiCommandItem :value="child.path">
                     <Icon
                       v-if="child.icon"
                       :name="child.icon"
@@ -67,17 +79,14 @@
           </template>
 
           <div v-else-if="searchResult?.length" class="p-1.5">
-            <NuxtLink
+            <a
               v-for="(item, i) in searchResult"
               :id="i"
               :key="item.id"
-              :to="item.id"
+              :href="item.id"
               class="flex select-none rounded-md p-2 hover:cursor-pointer hover:bg-muted"
               :class="[i === activeSelect && 'bg-muted']"
-              @click="
-                open = false;
-                activeSelect = i;
-              "
+              @click="(e) => handleResultClick(item.id, e)"
             >
               <Icon
                 v-if="getItemIcon(item.id)"
@@ -104,7 +113,7 @@
                 class="ml-2 self-center truncate text-xs text-muted-foreground"
                 v-html="getHighlightedContent(item.content)"
               />
-            </NuxtLink>
+            </a>
           </div>
 
           <div v-else class="pt-4 text-center text-muted-foreground">
@@ -118,6 +127,7 @@
 
 <script setup lang="ts">
 import { VisuallyHidden } from "radix-vue";
+import { nextTick } from "vue";
 
 const open = defineModel<boolean>("open");
 const colorMode = useColorMode();
@@ -135,6 +145,18 @@ watch([Meta_K, Ctrl_K], (v) => {
   if (v[0] || v[1]) open.value = true;
 });
 
+// Close dialog when route changes (e.g., when clicking search results)
+// Watch fullPath to catch hash changes too
+const route = useRoute();
+watch(() => route.fullPath, () => {
+  if (open.value) {
+    open.value = false;
+    input.value = "";
+    activeSelect.value = 0;
+    searchResult.value = null;
+  }
+});
+
 const input = ref("");
 const searchResult = ref();
 const searchLoading = ref(false);
@@ -143,7 +165,8 @@ watch(input, async (v) => {
   if (!v) return;
 
   searchLoading.value = true;
-  searchResult.value = (await searchContent(v)).value;
+  // Nuxt Content v3: use queryCollectionSearchSections instead of searchContent()
+  searchResult.value = await queryCollectionSearchSections('content', v);
   searchLoading.value = false;
 });
 
@@ -155,7 +178,10 @@ function getHighlightedContent(text: string) {
 }
 
 const { navKeyFromPath } = useContentHelpers();
-const { navigation } = useContent();
+// Nuxt Content v3: use queryCollectionNavigation instead of useContent()
+const { data: navigation } = useAsyncData('navigation', () => {
+  return queryCollectionNavigation('content');
+});
 function getItemIcon(path: string) {
   return navKeyFromPath(path, "icon", navigation.value);
 }
@@ -167,9 +193,20 @@ watch(activeSelect, (value) => {
 });
 
 function handleEnter() {
-  if (searchResult.value[activeSelect.value]?.id) {
-    navigateTo(searchResult.value[activeSelect.value].id);
+  if (searchResult.value?.[activeSelect.value]?.id) {
+    const path = searchResult.value[activeSelect.value].id;
+    // Close dialog first
     open.value = false;
+    input.value = "";
+    activeSelect.value = 0;
+    searchResult.value = null;
+    
+    // Navigate after dialog closes
+    nextTick(() => {
+      setTimeout(() => {
+        navigateTo(path);
+      }, 100);
+    });
   }
 }
 
@@ -180,5 +217,56 @@ function handleNavigate(delta: -1 | 1) {
   ) {
     activeSelect.value += delta;
   }
+}
+
+function handleClose() {
+  open.value = false;
+  // Clear input after a short delay to allow dialog to close smoothly
+  nextTick(() => {
+    setTimeout(() => {
+      input.value = "";
+      activeSelect.value = 0;
+    }, 150);
+  });
+}
+
+function handleDialogUpdate(newValue: boolean) {
+  if (!newValue) {
+    // Clear input when dialog closes
+    nextTick(() => {
+      input.value = "";
+      activeSelect.value = 0;
+      searchResult.value = null;
+    });
+  }
+}
+
+function handleResultClick(path: string, event?: MouseEvent) {
+  // Prevent any default behavior and stop propagation
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+  }
+  
+  // Close dialog IMMEDIATELY and synchronously - don't wait
+  // This must happen before navigation to prevent the dialog from staying open
+  open.value = false;
+  input.value = "";
+  activeSelect.value = 0;
+  searchResult.value = null;
+  
+  // Force a synchronous DOM update by accessing the dialog element
+  nextTick(() => {
+    // Navigate after ensuring dialog state is cleared
+    // For anchor links, navigateTo will scroll but might not trigger route change
+    // So we ensure dialog is already closed
+    navigateTo(path, { replace: false }).then(() => {
+      // Double-check dialog is closed after navigation completes
+      if (open.value) {
+        open.value = false;
+      }
+    });
+  });
 }
 </script>

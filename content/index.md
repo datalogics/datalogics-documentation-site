@@ -1,7 +1,7 @@
 ---
 title: Datalogics Documentation
-navigation: false
 description: Datalogics PDF Software Documentation
+navigation: false
 ---
 
 ::hero
@@ -13,6 +13,8 @@ Solving Complex PDF Workflows
 ::
 
 ## **Adobe PDF Library 18**
+
+The Adobe PDF Library SDK provides comprehensive PDF manipulation capabilities built on Adobe's source code used in Acrobat.
 
 ::card-group
   :::card
@@ -54,47 +56,39 @@ Solving Complex PDF Workflows
 
 ## **PDF SDKs**
 
-::card
----
-icon: material-symbols:convert-to-text-rounded
-to: /adobe-pdf-converter/read-me
----
-#title
-Adobe PDF Converter
+Additional SDKs and extensions for specialized PDF processing needs.
 
-#content
-Quickly convert Encapsulated PostScript and PostScript files to PDF for easier viewing & distribution
-::
+::card-group
+  :::card
+  ---
+  icon: material-symbols:convert-to-text-rounded
+  title: Adobe PDF Converter
+  to: /adobe-pdf-converter/read-me
+  ---
+  Quickly convert Encapsulated PostScript and PostScript files to PDF for easier viewing & distribution
+  :::
 
-::card
----
-icon: fluent:form-new-24-filled
-to: /adobe-pdf-forms-extension/guide
----
-#title
-Forms Extension™
+  :::card
+  ---
+  icon: fluent:form-new-24-filled
+  title: Forms Extension™
+  to: /adobe-pdf-forms-extension/guide
+  ---
+  Extend digital document support to PDFs with static XFA, dynamic XFA and AcroForm content
+  :::
 
-#content
-Extend digital document support to PDFs with static XFA, dynamic XFA and AcroForm content
-::
-
-::card
----
-icon: bi:image-fill
-to: /pdf-2-img-c-sdk/guide
----
-#title
-PDF2IMG C SDK
-
-#content
-An SDK to convert PDFs into high-quality image files
+  :::card{icon="bi:image-fill" title="PDF2IMG C SDK" to="/pdf-2-img-c-sdk/guide"}
+  An SDK to convert PDFs into high-quality image files
+  :::
 ::
 
 ## **Command-line Tools**
 
+Powerful command-line utilities for PDF processing, validation, and optimization.
+
 ::card-group
   :::card{icon="bi:image-fill" title="PDF2IMG" to="/pdf-2-img/guide"}
-  Convert PDFs into High-Quality Image Files
+  Convert PDFs into high-quality image files with customizable output formats
   :::
 
   :::card
@@ -103,7 +97,7 @@ An SDK to convert PDFs into high-quality image files
   title: PDF Checker
   to: /pdf-checker/guide
   ---
-  Detect PDF Errors Before They Affect Business
+  Detect PDF errors before they affect business workflows
   :::
 
   :::card
@@ -127,28 +121,26 @@ An SDK to convert PDFs into high-quality image files
 
 ## **Developer Resources**
 
-::card
----
-icon: lucide:github
-target: _blank
-to: https://github.com/datalogics
----
-#title
-Github
+Connect with the community and access additional resources.
 
-#content
-Adobe PDF Library - One Complete SDK for All of Your PDF Management Requirements
-::
+::card-group
+  :::card
+  ---
+  icon: lucide:github
+  target: _blank
+  title: GitHub
+  to: https://github.com/datalogics
+  ---
+  Explore open-source projects, examples, and contribute to the Datalogics ecosystem
+  :::
 
-::card
----
-icon: ic:sharp-discord
-target: _blank
-to: https://discord.com/invite/jNSHcSdRre
----
-#title
-Discord
-
-#content
-Join our Discord server to connect with Datalogics team members
+  :::card
+  ---
+  icon: ic:sharp-discord
+  target: _blank
+  title: Discord
+  to: https://discord.com/invite/jNSHcSdRre
+  ---
+  Join our Discord server to connect with Datalogics team members for support and discussions
+  :::
 ::

@@ -1,12 +1,28 @@
 [build]
   command = "bun run build:prod"
-  publish = "dist"
+  publish = ".output/public"
 
 [build.environment]
   NODE_OPTIONS = "--max-old-space-size=4096"
   NODE_VERSION = "22"
 
+# Nuxt Studio requires SSR - redirect Studio routes to serverless function
+[[redirects]]
+  from = "/__nuxt_studio/*"
+  to = "/.netlify/functions/server"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/_studio/*"
+  to = "/.netlify/functions/server"
+  status = 200
+  force = true
+
+# Hybrid rendering: pre-rendered pages served statically, Studio routes use SSR
+# Netlify will serve pre-rendered files from .output/public if they exist,
+# otherwise fall back to SSR via the serverless function
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/.netlify/functions/server"
   status = 200
