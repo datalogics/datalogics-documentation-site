@@ -172,4 +172,13 @@ export default defineNuxtConfig({
     server: false,
     client: false,
   },
+
+  // Nitro configuration for Netlify
+  nitro: {
+    preset: 'netlify',
+    // Ensure serverless function is generated
+    experimental: {
+      wasm: true,
+    },
+  },
 });

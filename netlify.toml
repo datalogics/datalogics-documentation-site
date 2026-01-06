@@ -1,6 +1,6 @@
 [build]
   command = "bun run build:prod"
-  publish = ".output/public"
+  publish = ".netlify/publish"
 
 [build.environment]
   NODE_OPTIONS = "--max-old-space-size=8192"
