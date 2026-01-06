@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Block Studio admin pages from indexing
+Disallow: /studio/login
+Disallow: /_studio
+Disallow: /__nuxt_studio
