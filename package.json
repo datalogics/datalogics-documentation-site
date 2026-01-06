@@ -26,7 +26,7 @@
   ],
   "scripts": {
     "build": "nuxt build",
-    "build:prod": "NODE_OPTIONS='--max-old-space-size=4096' nuxt build",
+    "build:prod": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
