@@ -14,6 +14,14 @@ export default defineNuxtConfig({
     public: {
       kapaWebsiteId: '', // Set via KAPA_WEBSITE_ID environment variable
     },
+    auth0: {
+      // Support both Netlify Auth0 extension variables and manual NUXT_ prefixed variables
+      domain: process.env.NUXT_AUTH0_DOMAIN || process.env.AUTH0_DOMAIN,
+      clientId: process.env.NUXT_AUTH0_CLIENT_ID || process.env.AUTH0_CLIENT_ID,
+      clientSecret: process.env.NUXT_AUTH0_CLIENT_SECRET || process.env.AUTH0_CLIENT_SECRET,
+      sessionSecret: process.env.NUXT_AUTH0_SESSION_SECRET || process.env.AUTH0_SESSION_SECRET,
+      appBaseUrl: process.env.NUXT_AUTH0_APP_BASE_URL || process.env.URL || process.env.DEPLOY_URL || 'http://localhost:3000',
+    },
   },
 
   plugins: [
@@ -38,6 +46,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     'nuxt-component-meta', // Required for nuxt-studio to access component metadata
     'nuxt-studio',
+    '@auth0/auth0-nuxt', // Auth0 authentication
   ],
 
   gtag: {
@@ -180,6 +189,10 @@ export default defineNuxtConfig({
       cors: true,
       headers: { 'Cache-Control': 's-maxage=0' }
     },
+    '/auth/**': {
+      ssr: true, // Auth0 routes need SSR
+      index: false, // Prevent index.html generation
+    },
     '/_studio/**': {
       ssr: true,
     },
@@ -191,6 +204,14 @@ export default defineNuxtConfig({
       index: false, // Prevent index.html generation
     },
     '/studio/login/**': {
+      ssr: true,
+      index: false,
+    },
+    '/studio/token': {
+      ssr: true,
+      index: false, // Prevent index.html generation
+    },
+    '/studio/token/**': {
       ssr: true,
       index: false,
     },
@@ -209,8 +230,11 @@ export default defineNuxtConfig({
         '/__nuxt_studio',
         '/__nuxt_studio/**',
         '/api/**', // Ignore ALL API routes (not just /api/studio/**)
+        '/auth/**', // Auth0 routes should be SSR
         '/studio/login', // Login page should also be SSR
         '/studio/login/**', // Login page with any sub-paths
+        '/studio/token', // Token page should be SSR
+        '/studio/token/**', // Token page with any sub-paths
       ],
     },
     // Ensure serverless function is generated for Studio routes and API routes

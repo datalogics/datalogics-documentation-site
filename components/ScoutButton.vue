@@ -151,6 +151,22 @@ defineExpose({
 <style scoped>
 .scout-button-container {
   position: relative;
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure button doesn't extend when Studio is open */
+body:has([data-studio]) .scout-button-container,
+body:has([id^="studio-"]) .scout-button-container,
+body:has([class*="studio-"]) .scout-button-container {
+  width: auto;
+  max-width: fit-content;
+}
+
+.scout-button-container * {
+  box-sizing: border-box;
 }
 
 .scout-button {
@@ -173,15 +189,15 @@ defineExpose({
   z-index: 9999;
   position: relative;
   background-clip: padding-box;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .scout-button::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   border-radius: 50px;
   padding: 2px;
   background: linear-gradient(135deg, #0c70f2, #f2a20c);
@@ -189,6 +205,7 @@ defineExpose({
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
+  box-sizing: border-box;
 }
 
 .scout-button:hover {
