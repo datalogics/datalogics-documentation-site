@@ -52,11 +52,40 @@ const isLoginPage = computed(() => {
   return path === '/studio/login' || path.startsWith('/studio/login/')
 });
 
+// Get base URL for absolute OG image URL
+const baseUrl = computed(() => {
+  if (import.meta.server) {
+    try {
+      const requestURL = useRequestURL();
+      return `${requestURL.protocol}//${requestURL.host}`;
+    } catch {
+      // Fallback to default production URL
+      return 'https://dev.datalogics.com';
+    }
+  } else if (typeof window !== 'undefined') {
+    return `${window.location.protocol}//${window.location.host}`;
+  }
+  return 'https://dev.datalogics.com';
+});
+
+const ogImageUrl = computed(() => {
+  if (!config.value?.site?.ogImage) return undefined;
+  const imagePath = config.value.site.ogImage;
+  if (imagePath.startsWith('http')) return imagePath;
+  return `${baseUrl.value}${imagePath}`;
+});
+
 useSeoMeta({
+  title: config.value?.site?.name || 'Datalogics Documentation',
+  ogTitle: config.value?.site?.name || 'Datalogics Documentation',
   description: config.value?.site?.description,
   ogDescription: config.value?.site?.description,
-  ogImage: config.value?.site?.ogImage,
+  ogImage: ogImageUrl.value,
+  ogUrl: baseUrl.value,
   twitterCard: "summary_large_image",
+  twitterTitle: config.value?.site?.name || 'Datalogics Documentation',
+  twitterDescription: config.value?.site?.description,
+  twitterImage: ogImageUrl.value,
 });
 
 useServerHead({
