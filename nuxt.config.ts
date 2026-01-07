@@ -150,8 +150,8 @@ export default defineNuxtConfig({
     //   defaultLocale: 'en', // 'en', 'fr', 'de', 'es', etc.
     // },
 
-    // Set to false to test production setup locally
-    // dev: true, // Default: true in development, false in production
+    // Set to false to require authentication even in development
+    dev: false, // Require auth in dev too (for testing production auth flow)
   },
   typescript: {
     tsConfig: {
