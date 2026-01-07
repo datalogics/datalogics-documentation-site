@@ -207,14 +207,6 @@ export default defineNuxtConfig({
       ssr: true,
       index: false,
     },
-    '/studio/token': {
-      ssr: true,
-      index: false, // Prevent index.html generation
-    },
-    '/studio/token/**': {
-      ssr: true,
-      index: false,
-    },
   },
 
   // Nitro configuration for Netlify
@@ -230,11 +222,9 @@ export default defineNuxtConfig({
         '/__nuxt_studio',
         '/__nuxt_studio/**',
         '/api/**', // Ignore ALL API routes (not just /api/studio/**)
-        '/auth/**', // Auth0 routes should be SSR
+        '/auth/**', // Auth0 routes should be SSR (optional, not required for Studio)
         '/studio/login', // Login page should also be SSR
         '/studio/login/**', // Login page with any sub-paths
-        '/studio/token', // Token page should be SSR
-        '/studio/token/**', // Token page with any sub-paths
       ],
     },
     // Ensure serverless function is generated for Studio routes and API routes

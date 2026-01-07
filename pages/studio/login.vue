@@ -35,8 +35,8 @@
 
 <script setup lang="ts">
 definePageMeta({
-  layout: false,
-  middleware: 'auth0-protect' // Require Auth0 authentication
+  layout: false
+  // NO Auth0 middleware - just direct GitHub OAuth
 })
 
 // Prevent indexing by search engines
@@ -49,9 +49,6 @@ useHead({
 const loading = ref(false)
 const error = ref('')
 const route = useRoute()
-
-// Get Auth0 user info (optional - for displaying user info)
-const { user, isAuthenticated } = useAuth0()
 
 // Check for error in URL query params
 onMounted(() => {
@@ -70,14 +67,8 @@ function handleLogin() {
   url.searchParams.delete('error')
   window.history.replaceState({}, '', url.toString())
   
-  // Redirect to Nuxt Studio's GitHub OAuth endpoint
-  // This will handle the OAuth flow automatically:
-  // 1. Redirects to GitHub for authorization
-  // 2. GitHub redirects back to /__nuxt_studio/auth/github
-  // 3. Studio handles the OAuth callback and sets session
-  // 4. Middleware validates email against STUDIO_GITHUB_MODERATORS
-  // 5. If authorized, user is redirected to /_studio
-  // 6. If not authorized, session is cleared and user redirected back here with error
+  // Direct redirect to Nuxt Studio's GitHub OAuth endpoint
+  // Simple: One click → GitHub login → Studio access
   window.location.href = '/__nuxt_studio/auth/github'
 }
 </script>
