@@ -3,7 +3,7 @@ export default defineAppConfig({
     site: {
       name: 'Datalogics Documentation',
       description: 'Create, edit, manage & manipulate PDFs with our Outrageously Unsexy Software',
-      ogImage: '/hero.png',
+      ogImage: '/logo.svg', // Note: For best social media compatibility, use PNG or JPG. SVG may not work on all platforms.
     },
     theme: {
       customizable: true,

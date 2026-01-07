@@ -75,17 +75,53 @@ const ogImageUrl = computed(() => {
   return `${baseUrl.value}${imagePath}`;
 });
 
+// Set SEO meta tags - useSeoMeta handles most tags
 useSeoMeta({
   title: config.value?.site?.name || 'Datalogics Documentation',
   ogTitle: config.value?.site?.name || 'Datalogics Documentation',
   description: config.value?.site?.description,
   ogDescription: config.value?.site?.description,
-  ogImage: ogImageUrl.value,
+  ogImage: ogImageUrl.value || `${baseUrl.value}/logo.svg`,
   ogUrl: baseUrl.value,
   twitterCard: "summary_large_image",
   twitterTitle: config.value?.site?.name || 'Datalogics Documentation',
   twitterDescription: config.value?.site?.description,
-  twitterImage: ogImageUrl.value,
+  twitterImage: ogImageUrl.value || `${baseUrl.value}/logo.svg`,
+});
+
+// Use reactive head for additional OG image meta tags
+const imageMeta = computed(() => {
+  const image = ogImageUrl.value || `${baseUrl.value}/logo.svg`;
+  return [
+    {
+      property: 'og:image',
+      content: image,
+    },
+    {
+      property: 'og:image:url',
+      content: image,
+    },
+    {
+      property: 'og:image:secure_url',
+      content: image,
+    },
+    {
+      property: 'og:image:type',
+      content: image.endsWith('.svg') ? 'image/svg+xml' : 'image/png',
+    },
+    {
+      property: 'og:image:width',
+      content: '1200',
+    },
+    {
+      property: 'og:image:height',
+      content: '630',
+    },
+  ];
+});
+
+useHead({
+  meta: imageMeta,
 });
 
 useServerHead({
