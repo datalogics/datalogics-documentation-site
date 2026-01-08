@@ -11,12 +11,12 @@
         class="mb-4"
       />
 
-      <div v-if="config.main.showTitle && page?.title" class="mb-6 space-y-2">
+      <div v-if="config.main.showTitle" class="mb-6 space-y-2">
         <ProseH1>
-          {{ page.title }}
+          {{ page?.title }}
         </ProseH1>
-        <p v-if="page?.description" class="text-lg text-secondary">
-          {{ page.description }}
+        <p class="text-lg text-secondary">
+          {{ page?.description }}
         </p>
       </div>
 
@@ -25,19 +25,14 @@
         title="Empty Page"
         icon="lucide:circle-x"
       >
-        <template v-if="page?.file">
-          Start writing in
-          <ProseCodeInline>content/{{ page.file }}</ProseCodeInline> to see this
-          page taking shape.
-        </template>
-        <template v-else>
-          This page has no content. It may redirect to another page.
-        </template>
+        Start writing in
+        <ProseCodeInline>content/{{ page?.file }}</ProseCodeInline> to see this
+        page taking shape.
       </Alert>
 
       <ContentRenderer
         v-else
-        :key="page?.id || route.path"
+        :key="page?.id"
         :value="page"
         class="docs-content"
       />
@@ -107,12 +102,9 @@ function findRedirectForPath(navItems: any[], targetPath: string): string | null
   return null;
 }
 
-// SEO Meta
 useSeoMeta({
-  title: page.value?.title 
-    ? `${page.value.title} - ${config.value.site.name}`
-    : config.value.site.name,
-  ogTitle: page.value?.title || config.value.site.name,
-  description: page.value?.description || config.value.site.description,
+  title: `${page.value?.title ?? "404"} - ${config.value.site.name}`,
+  ogTitle: page.value?.title,
+  description: page.value?.description,
 });
 </script>
