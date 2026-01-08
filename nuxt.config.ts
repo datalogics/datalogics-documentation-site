@@ -47,6 +47,7 @@ export default defineNuxtConfig({
     'nuxt-component-meta', // Required for nuxt-studio to access component metadata
     'nuxt-studio',
     '@auth0/auth0-nuxt', // Auth0 authentication
+    '~/modules/navigation-redirects', // Auto-generate redirects from .navigation.yml files
   ],
 
   gtag: {
@@ -207,6 +208,8 @@ export default defineNuxtConfig({
       ssr: true,
       index: false,
     },
+    // Directory-level redirects are auto-generated from .navigation.yml files
+    // by the ~/modules/navigation-redirects module at build time
   },
 
   // Nitro configuration for Netlify
