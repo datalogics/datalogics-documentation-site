@@ -6,7 +6,7 @@ navigation: false
 
 ::hero
 #title
-Welcome to Datalogics Documentation
+Welcome to Datalogics Documentation!
 
 #description
 Solving Complex PDF Workflows
