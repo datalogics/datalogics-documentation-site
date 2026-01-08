@@ -12,7 +12,9 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      kapaWebsiteId: '', // Set via KAPA_WEBSITE_ID environment variable
+      // Nuxt auto-maps NUXT_PUBLIC_KAPA_WEBSITE_ID env var to this
+      // In Netlify, rename KAPA_WEBSITE_ID to NUXT_PUBLIC_KAPA_WEBSITE_ID
+      kapaWebsiteId: process.env.NUXT_PUBLIC_KAPA_WEBSITE_ID || process.env.KAPA_WEBSITE_ID || '',
     },
     auth0: {
       // Support both Netlify Auth0 extension variables and manual NUXT_ prefixed variables

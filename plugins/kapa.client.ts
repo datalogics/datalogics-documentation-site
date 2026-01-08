@@ -87,9 +87,10 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
 
     // Check if website ID is configured
+    // In Netlify, set NUXT_PUBLIC_KAPA_WEBSITE_ID (not KAPA_WEBSITE_ID)
     const websiteId = config.public.kapaWebsiteId;
     if (!websiteId) {
-      console.error('Kapa website ID not configured. Please add KAPA_WEBSITE_ID to your .env file');
+      console.warn('Kapa website ID not configured. Set NUXT_PUBLIC_KAPA_WEBSITE_ID in your environment variables.');
       return;
     }
 
