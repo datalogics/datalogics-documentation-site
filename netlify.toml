@@ -6,7 +6,221 @@
   NODE_OPTIONS = "--max-old-space-size=8192"
   NODE_VERSION = "22"
 
+# Directory-level redirects for paths without content files
+# These redirect to the default page for each section (as defined in .navigation.yml)
+# Must happen at Netlify edge since these paths have no pre-rendered HTML
+
+# Adobe PDF Library root
+[[redirects]]
+  from = "/adobe-pdf-library"
+  to = "/adobe-pdf-library/release-notes"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-library/"
+  to = "/adobe-pdf-library/release-notes"
+  status = 301
+
+# C++
+[[redirects]]
+  from = "/adobe-pdf-library/c-plus-plus"
+  to = "/adobe-pdf-library/c-plus-plus/getting-started"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-library/c-plus-plus/"
+  to = "/adobe-pdf-library/c-plus-plus/getting-started"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-library/c-plus-plus/best-practices"
+  to = "/adobe-pdf-library/c-plus-plus/best-practices/resources-explained"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-library/c-plus-plus/best-practices/"
+  to = "/adobe-pdf-library/c-plus-plus/best-practices/resources-explained"
+  status = 301
+
+# .NET
+[[redirects]]
+  from = "/adobe-pdf-library/dot-net"
+  to = "/adobe-pdf-library/dot-net/getting-started"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-library/dot-net/"
+  to = "/adobe-pdf-library/dot-net/getting-started"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-library/dot-net/best-practices"
+  to = "/adobe-pdf-library/dot-net/best-practices/ocr-processing"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-library/dot-net/best-practices/"
+  to = "/adobe-pdf-library/dot-net/best-practices/ocr-processing"
+  status = 301
+
+# .NET Framework
+[[redirects]]
+  from = "/adobe-pdf-library/dot-net-fw"
+  to = "/adobe-pdf-library/dot-net-fw/getting-started"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-library/dot-net-fw/"
+  to = "/adobe-pdf-library/dot-net-fw/getting-started"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-library/dot-net-fw/best-practices"
+  to = "/adobe-pdf-library/dot-net-fw/best-practices/ocr-processing"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-library/dot-net-fw/best-practices/"
+  to = "/adobe-pdf-library/dot-net-fw/best-practices/ocr-processing"
+  status = 301
+
+# Java
+[[redirects]]
+  from = "/adobe-pdf-library/java"
+  to = "/adobe-pdf-library/java/getting-started"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-library/java/"
+  to = "/adobe-pdf-library/java/getting-started"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-library/java/best-practices"
+  to = "/adobe-pdf-library/java/best-practices/ocr-processing"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-library/java/best-practices/"
+  to = "/adobe-pdf-library/java/best-practices/ocr-processing"
+  status = 301
+
+# Adobe PDF Converter
+[[redirects]]
+  from = "/adobe-pdf-converter"
+  to = "/adobe-pdf-converter/read-me"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-converter/"
+  to = "/adobe-pdf-converter/read-me"
+  status = 301
+
+# Forms Extension
+[[redirects]]
+  from = "/adobe-pdf-forms-extension"
+  to = "/adobe-pdf-forms-extension/guide"
+  status = 301
+
+[[redirects]]
+  from = "/adobe-pdf-forms-extension/"
+  to = "/adobe-pdf-forms-extension/guide"
+  status = 301
+
+# PDF2IMG C SDK
+[[redirects]]
+  from = "/pdf-2-img-c-sdk"
+  to = "/pdf-2-img-c-sdk/guide"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-2-img-c-sdk/"
+  to = "/pdf-2-img-c-sdk/guide"
+  status = 301
+
+# PDF2IMG
+[[redirects]]
+  from = "/pdf-2-img"
+  to = "/pdf-2-img/guide"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-2-img/"
+  to = "/pdf-2-img/guide"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-2-img/tutorials"
+  to = "/pdf-2-img/tutorials/command-line-syntax"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-2-img/tutorials/"
+  to = "/pdf-2-img/tutorials/command-line-syntax"
+  status = 301
+
+# PDF Checker
+[[redirects]]
+  from = "/pdf-checker"
+  to = "/pdf-checker/guide"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-checker/"
+  to = "/pdf-checker/guide"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-checker/tutorials"
+  to = "/pdf-checker/tutorials/command_syntax"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-checker/tutorials/"
+  to = "/pdf-checker/tutorials/command_syntax"
+  status = 301
+
+# PDF Optimizer
+[[redirects]]
+  from = "/pdf-optimizer"
+  to = "/pdf-optimizer/guide"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-optimizer/"
+  to = "/pdf-optimizer/guide"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-optimizer/tutorials"
+  to = "/pdf-optimizer/tutorials/command_line_syntax"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-optimizer/tutorials/"
+  to = "/pdf-optimizer/tutorials/command_line_syntax"
+  status = 301
+
+# PDF Forms Flattener
+[[redirects]]
+  from = "/pdf-forms-flattener"
+  to = "/pdf-forms-flattener/guide"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-forms-flattener/"
+  to = "/pdf-forms-flattener/guide"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-forms-flattener/tutorials"
+  to = "/pdf-forms-flattener/tutorials/command_line_syntax"
+  status = 301
+
+[[redirects]]
+  from = "/pdf-forms-flattener/tutorials/"
+  to = "/pdf-forms-flattener/tutorials/command_line_syntax"
+  status = 301
+
 # Nitro's Netlify preset automatically generates redirects for SSR routes
-# We only need to specify redirects if Nitro doesn't generate them
-# With prerendering enabled, static files are served first,
-# then Nitro's auto-generated redirects handle SSR routes
+# The above redirects handle directory paths that don't have pre-rendered HTML
