@@ -100,7 +100,10 @@ const defaultConfig: DefaultConfig = {
 };
 
 export function useConfig() {
-  const appConfig = computed(() => useAppConfig()?.shadcnDocs || {});
+  // Call useAppConfig() directly - it's already reactive
+  // Don't wrap in computed() as it can be evaluated outside Vue setup context
+  const rawAppConfig = useAppConfig();
+  const appConfig = computed(() => rawAppConfig?.shadcnDocs || {});
 
   const { navKeyFromPath } = useContentHelpers();
   const route = useRoute();

@@ -73,7 +73,13 @@ function findNavItemByPath(items: any[], path: string): any | null {
   const normalizedPath = normalizePath(path);
   for (const item of items) {
     const itemPath = normalizePath(item.path || '');
+    // Exact match
     if (itemPath === normalizedPath) {
+      return item;
+    }
+    // Check if paths match when normalized (handles trailing slash differences)
+    if (itemPath && normalizedPath && 
+        (itemPath === normalizedPath || itemPath === normalizedPath + '/' || itemPath + '/' === normalizedPath)) {
       return item;
     }
     if (item.children && Array.isArray(item.children)) {
@@ -84,15 +90,54 @@ function findNavItemByPath(items: any[], path: string): any | null {
   return null;
 }
 
-// Check if page is empty
+// Helper function to find first child page
+function findFirstChildPage(items: any[], path: string): string | null {
+  if (!items || !Array.isArray(items)) return null;
+  const normalizedPath = normalizePath(path);
+  for (const item of items) {
+    const itemPath = normalizePath(item.path || '');
+    if (itemPath === normalizedPath) {
+      // Found the matching item, look for first child with a path
+      if (item.children && Array.isArray(item.children) && item.children.length > 0) {
+        const firstChild = item.children[0];
+        if (firstChild.path) {
+          return firstChild.path;
+        }
+        // Recursively check children
+        const childPath = findFirstChildPage([firstChild], firstChild.path || '');
+        if (childPath) return childPath;
+      }
+    }
+    if (item.children && Array.isArray(item.children)) {
+      const found = findFirstChildPage(item.children, path);
+      if (found) return found;
+    }
+  }
+  return null;
+}
+
+// Check if page is empty or doesn't exist
+const pageExists = !!page.value;
 const isEmpty = !page.value || !page.value.body || page.value.body?.children?.length === 0;
 
-if (isEmpty) {
+if (!pageExists || isEmpty) {
   // Try to find redirect in navigation
   let finalRedirectPath = null;
   
   // First, try to find navigation item at current path
-  const navItem = navigation.value ? findNavItemByPath(navigation.value, route.path) : null;
+  let navItem = navigation.value ? findNavItemByPath(navigation.value, route.path) : null;
+  
+  // If not found, try with normalized path variations
+  if (!navItem && navigation.value) {
+    const normalizedPath = normalizePath(route.path);
+    // Try exact match first
+    navItem = findNavItemByPath(navigation.value, normalizedPath);
+    // If still not found, try with trailing slash
+    if (!navItem) {
+      navItem = findNavItemByPath(navigation.value, normalizedPath + '/');
+    }
+  }
+  
   if (navItem) {
     // Try different possible locations for redirect property
     finalRedirectPath = navItem.navigation?.redirect || navItem.redirect || null;
@@ -112,16 +157,59 @@ if (isEmpty) {
         if (finalRedirectPath) break;
       }
     }
+    
+    // Also try checking if any navigation item ends with the same path segments
+    if (!finalRedirectPath && pathParts.length > 0) {
+      const lastSegment = pathParts[pathParts.length - 1];
+      // Search through all navigation items to find one that matches the last segment
+      function searchBySegment(items: any[], segment: string): any | null {
+        if (!items || !Array.isArray(items)) return null;
+        for (const item of items) {
+          const itemPath = normalizePath(item.path || '');
+          const itemSegments = itemPath.split('/').filter(p => p);
+          // Check if the last segment matches
+          if (itemSegments.length > 0 && itemSegments[itemSegments.length - 1] === segment) {
+            // Check if this item has a redirect
+            const redirect = item.navigation?.redirect || item.redirect || null;
+            if (redirect) {
+              return item;
+            }
+          }
+          if (item.children && Array.isArray(item.children)) {
+            const found = searchBySegment(item.children, segment);
+            if (found) return found;
+          }
+        }
+        return null;
+      }
+      const segmentMatch = searchBySegment(navigation.value, lastSegment);
+      if (segmentMatch) {
+        finalRedirectPath = segmentMatch.navigation?.redirect || segmentMatch.redirect || null;
+      }
+    }
   }
   
   // Also try querying .navigation.yml file directly if it exists
   if (!finalRedirectPath) {
     try {
       // Try to find .navigation.yml file that might exist at this path
-      const navYmlPath = route.path.replace(/\/$/, '') + '/.navigation.yml';
-      const navYmlPage = await queryCollection('content').path(navYmlPath).first();
-      if (navYmlPage) {
-        finalRedirectPath = (navYmlPage as any)?.navigation?.redirect || null;
+      const normalizedRoutePath = normalizePath(route.path);
+      // Try both with and without trailing slash
+      const possiblePaths = [
+        normalizedRoutePath + '/.navigation.yml',
+        normalizedRoutePath + '.navigation.yml',
+      ];
+      
+      for (const navYmlPath of possiblePaths) {
+        try {
+          const navYmlPage = await queryCollection('content').path(navYmlPath).first();
+          if (navYmlPage) {
+            finalRedirectPath = (navYmlPage as any)?.navigation?.redirect || null;
+            if (finalRedirectPath) break;
+          }
+        } catch (e) {
+          // Continue to next path
+        }
       }
     } catch (e) {
       // Ignore errors if .navigation.yml doesn't exist
@@ -133,9 +221,27 @@ if (isEmpty) {
     finalRedirectPath = (page.value as any)?.navigation?.redirect || null;
   }
   
+  // If still no redirect found and page doesn't exist, try to find first child page
+  if (!finalRedirectPath && !pageExists && navigation.value) {
+    const firstChildPath = findFirstChildPage(navigation.value, route.path);
+    if (firstChildPath) {
+      finalRedirectPath = firstChildPath;
+    }
+  }
+  
   // Perform redirect if found
   if (finalRedirectPath) {
-    await navigateTo(finalRedirectPath, { redirectCode: 301, external: false });
+    // Ensure redirect path is absolute and normalized
+    let redirectPath = finalRedirectPath.startsWith('/') 
+      ? finalRedirectPath 
+      : normalizePath(route.path) + '/' + finalRedirectPath;
+    
+    // Normalize the redirect path
+    redirectPath = normalizePath(redirectPath);
+    
+    // Use navigateTo with redirectCode for proper SSR handling
+    // This will throw internally in Nuxt to stop execution
+    await navigateTo(redirectPath, { redirectCode: 301, external: false });
   }
 }
 
