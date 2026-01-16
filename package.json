@@ -49,7 +49,7 @@
     "clsx": "^2.1.1",
     "nuxt": "^4.2.2",
     "nuxt-gtag": "^3.0.1",
-    "nuxt-studio": "^1.0.0",
+    "nuxt-studio": "^1.1.0",
     "radix-vue": "^1.9.3",
     "shadcn-nuxt": "^0.10.4",
     "tailwind-merge": "^2.4.0",
