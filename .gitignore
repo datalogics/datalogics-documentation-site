@@ -23,3 +23,12 @@ logs
 .env.*
 !.env.example
 .env.example
+nuxt-studio-documentation/advanced.md
+nuxt-studio-documentation/auth-providers.md
+nuxt-studio-documentation/content.md
+nuxt-studio-documentation/git-providers.md
+nuxt-studio-documentation/introduction.md
+nuxt-studio-documentation/medias.md
+nuxt-studio-documentation/roadmap.md
+nuxt-studio-documentation/setup.md
+NUXT_STUDIO_SETUP.md
