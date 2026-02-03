@@ -16,7 +16,7 @@
       </VisuallyHidden>
       <UiCommand 
         v-model:search-term="input" 
-        class="h-svh sm:h-[350px]"
+        class="h-svh sm:h-[500px]"
       >
         <UiCommandInput
           :loading="searchLoading"
@@ -78,40 +78,43 @@
             </UiCommandGroup>
           </template>
 
-          <div v-else-if="searchResult?.length" class="p-1.5">
+          <div v-else-if="searchResult?.length" class="p-1.5 space-y-1">
             <a
               v-for="(item, i) in searchResult"
               :id="i"
               :key="item.id"
               :href="item.id"
-              class="flex select-none rounded-md p-2 hover:cursor-pointer hover:bg-muted"
-              :class="[i === activeSelect && 'bg-muted']"
+              class="block select-none rounded-lg border border-transparent p-3 hover:cursor-pointer hover:bg-muted hover:border-border transition-colors"
+              :class="[i === activeSelect && 'bg-muted border-border']"
               @click="(e) => handleResultClick(item.id, e)"
             >
-              <Icon
-                v-if="getItemIcon(item.id)"
-                :name="getItemIcon(item.id)"
-                class="mr-2 size-4 shrink-0 self-center"
-              />
-              <div v-else class="mr-2 size-4 shrink-0" />
-
-              <span
-                v-for="(subtitle, j) in item.titles"
-                :key="`${subtitle}${j}`"
-                class="flex shrink-0 self-center"
-              >
-                {{ subtitle }}
+              <!-- Row 1: Navigation breadcrumb with highlighting -->
+              <div class="flex items-center gap-1 text-xs text-muted-foreground mb-1.5 flex-wrap">
                 <Icon
-                  name="lucide:chevron-right"
-                  class="mx-0.5 self-center text-muted-foreground"
+                  v-if="getItemIcon(item.id)"
+                  :name="getItemIcon(item.id)"
+                  class="size-3.5 shrink-0"
                 />
-              </span>
-              <span class="shrink-0 self-center">
-                {{ item.title }}
-              </span>
-              <span
-                class="ml-2 self-center truncate text-xs text-muted-foreground"
-                v-html="getHighlightedContent(item.content)"
+                <template v-for="(crumb, j) in getNavBreadcrumb(item.id)" :key="`nav-${crumb}${j}`">
+                  <span class="truncate max-w-[140px]" v-html="highlightMatches(crumb)" />
+                  <Icon
+                    name="lucide:chevron-right"
+                    class="size-3 shrink-0 text-muted-foreground/50"
+                  />
+                </template>
+              </div>
+              
+              <!-- Row 2: Section title with highlighting -->
+              <div 
+                class="font-medium text-foreground leading-tight mb-1"
+                v-html="highlightMatches(item.title)"
+              />
+              
+              <!-- Row 3: Content preview with highlighting -->
+              <div
+                v-if="item.content"
+                class="text-xs text-muted-foreground line-clamp-2 leading-relaxed"
+                v-html="highlightMatches(item.content)"
               />
             </a>
           </div>
@@ -128,6 +131,7 @@
 <script setup lang="ts">
 import { VisuallyHidden } from "radix-vue";
 import { nextTick } from "vue";
+import MiniSearch from "minisearch";
 
 const open = defineModel<boolean>("open");
 const colorMode = useColorMode();
@@ -157,24 +161,76 @@ watch(() => route.fullPath, () => {
   }
 });
 
+// Nuxt Content v3: Load all searchable sections once, then filter with MiniSearch
+const { data: searchSections } = useAsyncData('search-sections', () => 
+  queryCollectionSearchSections('content')
+);
+
+// Initialize MiniSearch instance
+const miniSearch = computed(() => {
+  if (!searchSections.value) return null;
+  
+  const ms = new MiniSearch({
+    idField: '_msId', // Use our custom id field
+    fields: ['title', 'content', 'titles'],
+    storeFields: ['title', 'content', 'titles', 'id', 'level', '_msId'],
+    searchOptions: {
+      prefix: true,
+      fuzzy: 0.2,
+      boost: { title: 2, titles: 1.5 },
+    },
+  });
+  
+  // Add all sections to the search index
+  ms.addAll(searchSections.value.map((section: any, index: number) => ({
+    ...section,
+    // MiniSearch requires a unique id field - use index since section.id is a path
+    _msId: index,
+  })));
+  
+  return ms;
+});
+
 const input = ref("");
-const searchResult = ref();
+const searchResult = ref<any[] | null>(null);
 const searchLoading = ref(false);
-watch(input, async (v) => {
+
+watch(input, (v) => {
   activeSelect.value = 0;
-  if (!v) return;
+  if (!v || !miniSearch.value) {
+    searchResult.value = null;
+    return;
+  }
 
   searchLoading.value = true;
-  // Nuxt Content v3: use queryCollectionSearchSections instead of searchContent()
-  searchResult.value = await queryCollectionSearchSections('content', v);
+  
+  // Perform client-side search with MiniSearch
+  const results = miniSearch.value.search(v, { 
+    prefix: true, 
+    fuzzy: 0.2,
+  });
+  
+  // Map results back to the original section data
+  searchResult.value = results.slice(0, 20).map((result: any) => {
+    const section = searchSections.value?.[result._msId];
+    return section || result;
+  });
+  
   searchLoading.value = false;
 });
 
-function getHighlightedContent(text: string) {
-  return text.replace(
-    input.value,
-    `<span class="font-semibold underline">${input.value}</span>`
-  );
+// Highlight search terms in text - used for breadcrumb, title, and content
+function highlightMatches(text: string) {
+  if (!text || !input.value) return text;
+  // Escape special regex chars and split search into words for multi-word highlighting
+  const searchTerms = input.value.trim().split(/\s+/).filter(t => t.length > 0);
+  if (searchTerms.length === 0) return text;
+  
+  // Create regex that matches any of the search terms
+  const escapedTerms = searchTerms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const regex = new RegExp(`(${escapedTerms.join('|')})`, 'gi');
+  
+  return text.replace(regex, '<mark class="bg-primary/20 text-primary rounded px-0.5">$1</mark>');
 }
 
 const { navKeyFromPath } = useContentHelpers();
@@ -184,6 +240,41 @@ const { data: navigation } = useAsyncData('navigation', () => {
 });
 function getItemIcon(path: string) {
   return navKeyFromPath(path, "icon", navigation.value);
+}
+
+// Build navigation breadcrumb from path using the navigation tree
+function getNavBreadcrumb(path: string): string[] {
+  if (!navigation.value || !path) return [];
+  
+  // Remove hash/anchor from path
+  const cleanPath = path.split('#')[0];
+  
+  const breadcrumb: string[] = [];
+  
+  function findInNav(items: any[], targetPath: string): boolean {
+    for (const item of items) {
+      // Check if this item's path matches or is a parent of the target
+      if (item.path && (cleanPath === item.path || cleanPath.startsWith(item.path + '/'))) {
+        breadcrumb.push(item.title);
+        
+        if (item.children && item.children.length > 0) {
+          // Continue searching in children
+          findInNav(item.children, targetPath);
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  findInNav(navigation.value, cleanPath);
+  
+  // Remove the last item (the page itself) - we'll show that separately as the title
+  if (breadcrumb.length > 1) {
+    breadcrumb.pop();
+  }
+  
+  return breadcrumb;
 }
 
 watch(activeSelect, (value) => {
