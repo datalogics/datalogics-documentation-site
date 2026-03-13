@@ -1,0 +1,43 @@
+APDFL v18.0.5PlusP2a 
+
+ 
+
+New Features: 
+
+API updates to facilitate generation of ETSI PAdES-EPES (policy-based) signatures. 
+
+This allows developers to define and include signature policy identifiers and associated policy information during signature creation, in compliance with ETSI PAdES specifications. 
+
+ 
+
+Constraints: 
+
+ETSI PAdES signatures are unavailable on Linux 32-bit and AIX 64-bit platforms. 
+
+ 
+
+ 
+
+Changes: 
+
+FoxIt Conversion SDK 3.0 for Office Conversion has been updated to 3.0 
+
+Mitigate CVE's by updating libpng 1.6.55 
+
+Mitigate CVE's by updating libcurl to 1.18.0 
+
+APDFL.SharedLibs NuGet package has been increased to 1.0.7 
+
+With this release, the Maven package version has been increased to 18.59.0 
+
+With this release, the NuGet package version has been increased to 18.59.0 
+
+ 
+
+Problem Corrections: 
+
+SF47324 – Corrects an issue where conversion of some PDF documents to Word would have incorrect orientation. 
+
+SF47427 – Fixes a crash that could occur Rendering a document with a problematic ColorSpace. 
+
+ 

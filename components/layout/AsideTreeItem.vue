@@ -45,6 +45,28 @@
         </ul>
       </UiCollapsibleContent>
     </UiCollapsible>
+    <a
+      v-else-if="isExternalRedirect"
+      :href="link.redirect"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex w-full gap-1 hover:underline text-foreground"
+    >
+      <Icon
+        v-if="link.icon"
+        :name="link.icon"
+        class="mr-1 self-center"
+        size="15"
+      />
+      <span class="truncate text-nowrap">
+        {{ link.title }}
+      </span>
+      <Icon
+        name="lucide:external-link"
+        class="ml-auto self-center text-muted-foreground"
+        size="12"
+      />
+    </a>
     <NuxtLink
       v-else
       :to="link.path"
@@ -89,6 +111,9 @@ watch(isOpen, (v) => {
 
 const route = useRoute();
 const isActive = computed(() => route.path.startsWith(props.link.path));
+const isExternalRedirect = computed(() =>
+  !props.link.children && typeof props.link.redirect === 'string' && props.link.redirect.startsWith('http')
+);
 </script>
 
 <style scoped>
