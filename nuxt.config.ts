@@ -101,6 +101,7 @@ export default defineNuxtConfig({
   css: [
     join(currentDir, './assets/css/tailwind.css'),
     join(currentDir, './assets/css/themes.css'),
+    join(currentDir, './assets/css/kapa-widget.css'),
   ],
   vite: {
     plugins: [

@@ -1,18 +1,20 @@
 <template>
-  <div v-show="isVisible" class="scout-button-container">
-    <button
-      class="scout-button"
-      :class="{
-        'scout-button-floating': floating,
-        'scout-button-loading': loading,
-      }"
-      data-tooltip
+  <div class="scout-button-container">
+    <button 
       @click="openScout"
+      class="scout-button"
+      :class="{ 'scout-button-floating': floating, 'scout-button-loading': loading }"
+      data-tooltip
     >
-      <Icon v-if="isIconLoaded" name="noto:dog" class="scout-icon" />
-      <span v-if="showText" class="scout-text">{{ buttonText }}</span>
-
-      <!-- Custom tooltip -->
+      <Icon 
+        name="noto:dog" 
+        class="scout-icon" 
+      />
+      <span v-if="showText" class="scout-label">
+        <span class="scout-text">{{ buttonText }}</span>
+        <span class="scout-sub">Our AI Assistant</span>
+      </span>
+      
       <div class="scout-tooltip">
         {{ buttonTitle }}
       </div>
@@ -21,345 +23,230 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue";
-
-defineProps({
+const props = defineProps({
   floating: {
     type: Boolean,
-    default: true,
+    default: true
   },
   buttonText: {
     type: String,
-    default: "Ask Scout",
+    default: 'Ask Scout'
   },
   buttonTitle: {
     type: String,
-    default: "I'll sniff out the answers you need!",
+    default: "I'll sniff out the answers you need!"
   },
   showText: {
     type: Boolean,
-    default: true,
-  },
-});
-
-const loading = ref(false);
-const isVisible = ref(false);
-const isIconLoaded = ref(false);
-
-// Check if we're in browser environment
-const isBrowser = typeof window !== "undefined";
-
-// Function to ensure icon is loaded
-async function checkIconLoading() {
-  // Small delay to ensure Nuxt Icon component is initialized
-  await new Promise((resolve) => setTimeout(resolve, 100));
-  isIconLoaded.value = true;
-}
-
-// Function to check URL parameter
-function checkAsKaiParam() {
-  if (typeof window !== "undefined") {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get("askai") === "true";
+    default: true
   }
-  return false;
-}
+})
 
-// Function to open the Kapa.ai widget
-async function openScout() {
-  loading.value = true;
+const loading = ref(false)
 
-  // Wait for widget to be ready
-  let attempts = 0;
-  const maxAttempts = 10;
-
+const openScout = async () => {
+  loading.value = true
+  
+  let attempts = 0
+  const maxAttempts = 10
+  
   while (attempts < maxAttempts) {
-    // Check if the global function is available
-    if (typeof window !== "undefined" && window.openKapaWidget) {
-      const success = window.openKapaWidget();
-      if (success) {
-        break;
-      }
+    if (typeof window !== 'undefined' && window.openKapaWidget) {
+      const success = window.openKapaWidget()
+      if (success) break
     }
-
-    // Check if widget is ready directly
-    if (
-      typeof window !== "undefined" &&
-      window.kapaWidgetReady &&
-      window.Kapa &&
-      typeof window.Kapa.open === "function"
-    ) {
+    
+    if (typeof window !== 'undefined' && window.kapaWidgetReady && window.Kapa && typeof window.Kapa.open === 'function') {
       try {
-        window.Kapa.open({
-          mode: "ai",
-          query: "",
-          submit: false,
-        });
-        break;
+        window.Kapa.open({ mode: 'ai', query: '', submit: false })
+        break
       } catch (error) {
-        console.error("Error opening widget:", error);
+        console.error('Error opening widget:', error)
       }
     }
-
-    attempts++;
-
+    
+    attempts++
     if (attempts < maxAttempts) {
-      // Wait before next attempt
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 500))
     }
   }
-
-  // Reset loading state
-  setTimeout(() => {
-    loading.value = false;
-  }, 1000);
+  
+  setTimeout(() => { loading.value = false }, 1000)
 }
 
-// Expose the open function for external use
-// Watch for route changes
-watch(
-  () => window?.location?.search,
-  () => {
-    if (checkAsKaiParam()) {
-      openScout();
-    }
+onMounted(() => {
+  const urlParams = new URLSearchParams(window.location.search)
+  if (urlParams.get('askai') === 'true') {
+    openScout()
   }
-);
+})
 
-// Initialize on mount
-onMounted(async () => {
-  // Ensure we're in browser environment
-  if (!isBrowser) return;
-
-  // Wait for icon to load
-  await checkIconLoading();
-
-  // Show the button
-  isVisible.value = true;
-
-  // Check if we need to open Scout
-  if (checkAsKaiParam()) {
-    openScout();
-  }
-});
-
-defineExpose({
-  open: openScout,
-});
+defineExpose({ open: openScout })
 </script>
 
 <style scoped>
 .scout-button-container {
   position: relative;
-  display: inline-block;
-  width: fit-content;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-/* Ensure button doesn't extend when Studio is open */
-body:has([data-studio]) .scout-button-container,
-body:has([id^="studio-"]) .scout-button-container,
-body:has([class*="studio-"]) .scout-button-container {
-  width: auto;
-  max-width: fit-content;
-}
-
-.scout-button-container * {
-  box-sizing: border-box;
 }
 
 .scout-button {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: #0c70f2;
-  border: 2px solid transparent;
-  border-radius: 50px;
-  color: #ffffff;
-  font-weight: 600;
+  gap: 9px;
+  background: rgba(5, 16, 38, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(12, 112, 242, 0.4);
+  border-radius: 100px;
+  color: #F1F5F9;
+  font-weight: 500;
   font-size: 14px;
-  padding: 12px 20px;
+  letter-spacing: 0.015em;
+  padding: 9px 18px 9px 11px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(242, 162, 12, 0.2);
-  text-decoration: none;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    sans-serif;
-  z-index: 9999;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   position: relative;
-  background-clip: padding-box;
-  width: fit-content;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.scout-button::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50px;
-  padding: 2px;
-  background: linear-gradient(135deg, #0c70f2, #f2a20c);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  box-sizing: border-box;
+  z-index: 9999;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .scout-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(242, 162, 12, 0.3);
-}
-
-.scout-button:hover::before {
-  background: linear-gradient(
-    45deg,
-    rgba(242, 162, 12, 0.8),
-    rgba(12, 112, 242, 0.8),
-    rgba(242, 162, 12, 0.8)
-  );
-  background-size: 200% 200%;
-  animation: gradient-shift 3s ease infinite;
+  border-color: rgba(12, 112, 242, 0.8);
+  background: rgba(12, 112, 242, 0.12);
+  box-shadow:
+    0 0 0 3px rgba(12, 112, 242, 0.1),
+    0 4px 20px rgba(12, 112, 242, 0.2),
+    0 2px 8px rgba(0, 0, 0, 0.35);
+  transform: translateY(-1px);
+  color: #FFFFFF;
 }
 
 .scout-button:active {
   transform: translateY(0);
+  box-shadow: 0 0 0 2px rgba(12, 112, 242, 0.15);
+}
+
+.scout-button-loading {
+  animation: scout-pulse-glow 1.6s ease-in-out infinite;
 }
 
 .scout-button-floating {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  border-radius: 50px;
-  padding: 16px 24px;
-  box-shadow: 0 8px 32px rgba(242, 162, 12, 0.3);
+  padding: 11px 22px 11px 14px;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(12, 112, 242, 0.25);
 }
 
 .scout-button-floating:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 12px 40px rgba(242, 162, 12, 0.4);
-}
-
-.scout-button-loading {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 3px rgba(12, 112, 242, 0.12),
+    0 8px 32px rgba(12, 112, 242, 0.22),
+    0 4px 16px rgba(0, 0, 0, 0.45);
 }
 
 .scout-icon {
-  width: 36px;
-  height: 36px;
+  width: 26px;
+  height: 26px;
   flex-shrink: 0;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4));
+  transition: transform 0.2s ease;
+}
+
+.scout-button:hover .scout-icon {
+  transform: scale(1.1) rotate(-4deg);
+}
+
+.scout-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
 }
 
 .scout-text {
   white-space: nowrap;
-  font-weight: 600;
+  font-weight: 500;
+  line-height: 1.2;
 }
 
-/* Custom tooltip styles */
+.scout-sub {
+  white-space: nowrap;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  color: rgba(200, 221, 244, 0.65);
+  line-height: 1.2;
+  transition: color 0.2s ease;
+}
+
+.scout-button:hover .scout-sub {
+  color: rgba(200, 221, 244, 0.9);
+}
+
 .scout-tooltip {
-  position: absolute !important;
-  bottom: 65% !important;
-  right: calc(100% - 5px) !important;
-  transform: translateY(50%) translateX(8px) !important;
-  background: rgba(12, 112, 242, 0.95);
-  color: #ffffff;
-  padding: 12px 16px;
-  border-radius: 12px;
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  background: rgba(10, 30, 61, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(12, 112, 242, 0.22);
+  color: #C8DDF4;
+  padding: 9px 13px;
+  border-radius: 10px;
   font-size: 12px;
-  font-weight: 500;
-  white-space: normal;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: nowrap;
+  pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
   z-index: 10000;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(242, 162, 12, 0.2);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  max-width: 200px;
-  min-width: 160px;
-  text-align: center;
-  line-height: 1.5;
-  overflow: visible;
-  word-wrap: break-word;
 }
 
 .scout-tooltip::after {
-  content: "";
+  content: '';
   position: absolute;
-  top: 77%;
-  right: -6px;
-  transform: translateY(-52%);
-  width: 0;
-  height: 0;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-  border-left: 8px solid rgba(12, 112, 242, 0.95);
-  z-index: 10001;
+  top: 100%;
+  right: 22px;
+  border: 6px solid transparent;
+  border-top-color: rgba(10, 30, 61, 0.96);
 }
 
 .scout-button:hover .scout-tooltip {
   opacity: 1;
   visibility: visible;
-  transform: translateY(50%) translateX(0);
+  transform: translateY(0);
 }
 
-/* Floating button tooltip positioning */
-.scout-button-floating .scout-tooltip {
-  bottom: 50%;
-  right: calc(100% - 24px);
-  transform: translateY(50%) translateX(8px);
+@keyframes scout-pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(12, 112, 242, 0.35); }
+  50%       { box-shadow: 0 0 16px 4px rgba(12, 112, 242, 0.15); }
 }
 
-.scout-button-floating:hover .scout-tooltip {
-  transform: translateY(50%) translateX(0);
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-@keyframes gradient-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-/* Responsive design */
 @media (max-width: 768px) {
   .scout-button-floating {
     bottom: 16px;
     right: 16px;
-    padding: 12px 20px;
+    padding: 10px 16px 10px 12px;
   }
 
   .scout-text {
     display: none;
   }
 
-  /* Hide tooltip on mobile to avoid touch issues */
   .scout-tooltip {
     display: none;
-  }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .scout-button {
-    background: #0b1320;
   }
 }
 </style>

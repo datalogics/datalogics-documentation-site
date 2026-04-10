@@ -1,0 +1,35 @@
+/* Kapa.ai Widget — Datalogics brand integration
+ *
+ * Primary theming is handled via data-* attributes in plugins/kapa.client.ts.
+ * This file handles host-page layout: sidebar z-index and responsive rules.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ─── Sidebar host container ──────────────────────────────────────────────── */
+
+#kapa-widget-container {
+  z-index: 9000 !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ─── Launcher button (hidden — ScoutButton.vue replaces it) ─────────────── */
+
+#kapa-widget-button {
+  display: none !important;
+}
+
+/* ─── Focus ring — accessibility ──────────────────────────────────────────── */
+
+[data-kapa-focus] {
+  outline: 2px solid #0C70F2 !important;
+  outline-offset: 2px !important;
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  #kapa-widget-container {
+    width: 100% !important;
+  }
+}

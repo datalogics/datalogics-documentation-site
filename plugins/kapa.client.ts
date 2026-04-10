@@ -1,239 +1,210 @@
-import { defineNuxtPlugin, useRuntimeConfig } from '#app';
+import { defineNuxtPlugin, useRuntimeConfig } from '#app'
 
 declare global {
   interface Window {
-    kapaWidget?: any;
+    kapaWidget?: any
     Kapa?: {
-      open: (options?: { mode?: 'search' | 'ai'; query?: string; submit?: boolean }) => void;
-      close: () => void;
-      render: (options?: { onRender?: () => void }) => void;
-      unmount: () => void;
-    };
-    openKapaWidget?: () => boolean;
-    kapaWidgetReady?: boolean;
+      open: (options?: { mode?: 'search' | 'ai', query?: string, submit?: boolean }) => void
+      close: () => void
+      render: (options?: { onRender?: () => void }) => void
+      unmount: () => void
+    }
+    openKapaWidget?: () => boolean
+    kapaWidgetReady?: boolean
   }
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
-  const config = useRuntimeConfig();
-
-  // Track widget ready state
+  const config = useRuntimeConfig()
+  
   if (typeof window !== 'undefined') {
-    window.kapaWidgetReady = false;
+    window.kapaWidgetReady = false
   }
-
-  // Create a global function to open the Kapa widget
+  
   if (typeof window !== 'undefined') {
     window.openKapaWidget = () => {
-      // Check if widget is ready
       if (!window.kapaWidgetReady) {
-        // Try to initialize the widget
         if (window.Kapa && typeof window.Kapa.render === 'function') {
           window.Kapa.render({
             onRender: () => {
-              window.kapaWidgetReady = true;
-
-              // Now try to open it
+              window.kapaWidgetReady = true
               setTimeout(() => {
                 if (window.Kapa && typeof window.Kapa.open === 'function') {
-                  window.Kapa.open({
-                    mode: 'ai',
-                    query: '',
-                    submit: false,
-                  });
+                  window.Kapa.open({ mode: 'ai', query: '', submit: false })
                 }
-              }, 200);
-            },
-          });
-          return true;
+              }, 200)
+            }
+          })
+          return true
         }
-
-        return false;
+        return false
       }
-
-      // Widget is ready, try to open it
+      
       if (window.Kapa && typeof window.Kapa.open === 'function') {
         try {
-          window.Kapa.open({
-            mode: 'ai',
-            query: '',
-            submit: false,
-          });
-          return true;
+          window.Kapa.open({ mode: 'ai', query: '', submit: false })
+          return true
         } catch (error) {
-          console.error('Error opening Kapa widget:', error);
+          console.error('Error opening Kapa widget:', error)
         }
       }
-
-      // Fallback: try legacy API
+      
       if (window.kapaWidget && typeof window.kapaWidget.open === 'function') {
         try {
-          window.kapaWidget.open();
-          return true;
+          window.kapaWidget.open()
+          return true
         } catch (error) {
-          console.error('Error calling legacy API:', error);
+          console.error('Error calling legacy API:', error)
         }
       }
-
-      return false;
-    };
+      
+      return false
+    }
   }
-
-  // Initialize Kapa.ai Widget
+  
   function initializeKapaWidget() {
-    // Check if widget is already loaded
-    if (document.getElementById('kapa-widget-script')) {
-      return;
-    }
+    if (document.getElementById('kapa-widget-script')) return
 
-    // Check if website ID is configured
-    // In Netlify, set NUXT_PUBLIC_KAPA_WEBSITE_ID (not KAPA_WEBSITE_ID)
-    const websiteId = config.public.kapaWebsiteId;
+    const websiteId = config.public.kapaWebsiteId
     if (!websiteId) {
-      console.warn('Kapa website ID not configured. Set NUXT_PUBLIC_KAPA_WEBSITE_ID in your environment variables.');
-      return;
+      console.warn('Kapa website ID not configured. Set NUXT_PUBLIC_KAPA_WEBSITE_ID in your environment variables.')
+      return
     }
 
-    // Create the script element
-    const script = document.createElement('script');
-    script.id = 'kapa-widget-script';
-    script.async = true;
-    script.src = 'https://widget.kapa.ai/kapa-widget.bundle.js';
+    const script = document.createElement('script')
+    script.id = 'kapa-widget-script'
+    script.async = true
+    script.src = 'https://widget.kapa.ai/kapa-widget.bundle.js'
+    
+    // ── Identity ────────────────────────────────────────────────────────────
+    script.setAttribute('data-website-id', config.public.kapaWebsiteId as string)
+    script.setAttribute('data-project-name', 'Scout')
+    script.setAttribute('data-project-color', '#0C70F2')
+    // Use the locally-hosted Datalogics icon. window.location.origin works across all environments.
+    script.setAttribute('data-project-logo', `${window.location.origin}/logo-icon.png`)
 
-    // Set data attributes for Kapa.ai configuration
-    script.setAttribute('data-website-id', config.public.kapaWebsiteId as string);
-    script.setAttribute('data-project-name', 'Datalogics');
-    script.setAttribute('data-project-color', '#0B1320');
-    script.setAttribute('data-project-logo', 'https://media.licdn.com/dms/image/v2/C560BAQE2nxd3OHItaA/company-logo_200_200/company-logo_200_200/0/1662478307821/datalogics_logo?e=2147483647&v=beta&t=HETYrp2nzlLgnA16t254XLEdyiCOvkZUtIGyW6WmxWc');
+    // ── Layout: persistent sidebar ──────────────────────────────────────────
+    script.setAttribute('data-view-mode', 'sidebar')
+    script.setAttribute('data-modal-open-by-default', 'false')
+    script.setAttribute('data-launcher-button-hidden', 'true')
+    script.setAttribute('data-modal-full-screen-on-mobile', 'true')
 
-    // Hide the default button completely
-    script.setAttribute('data-button-hide', 'true');
+    // ── MCP install menu ────────────────────────────────────────────────────
+    script.setAttribute('data-mcp-server-url', 'https://datalogics.mcp.kapa.ai')
 
-    // Don't render on load - we'll control it manually
-    script.setAttribute('data-render-on-load', 'false');
+    // ── Color scheme: always dark ───────────────────────────────────────────
+    // IMPORTANT: palette tokens require -dark suffix when data-color-scheme="dark"
+    script.setAttribute('data-color-scheme', 'dark')
+    script.setAttribute('data-surface-color-dark', '#030C1A')
+    script.setAttribute('data-surface-elevated-color-dark', '#0A1E3D')
+    script.setAttribute('data-surface-hover-color-dark', '#0D2550')
+    script.setAttribute('data-text-color-dark', '#FFFFFF')
+    script.setAttribute('data-text-muted-color-dark', '#C8DDF4')
+    script.setAttribute('data-border-color-dark', '#1E3A5F')
+    script.setAttribute('data-anchor-color-dark', '#0C70F2')
 
-    // Modal configuration - using only valid parameters from documentation
-    script.setAttribute('data-modal-title', '🐕 Scout - Datalogics AI Assistant');
-    script.setAttribute('data-modal-open-by-default', 'false');
-    script.setAttribute('data-modal-open-on-command-k', 'false');
-    script.setAttribute('data-modal-with-overlay', 'true');
-    script.setAttribute('data-modal-z-index', '9999');
-    script.setAttribute('data-modal-size', '800px');
-    script.setAttribute('data-modal-border-radius', '16px');
-    script.setAttribute('data-modal-y-offset', '5vh');
-    script.setAttribute('data-modal-lock-scroll', 'true');
-    script.setAttribute('data-modal-full-screen-on-mobile', 'true');
+    // ── Typography ──────────────────────────────────────────────────────────
+    script.setAttribute('data-font-family', 'Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif')
 
-    // Modal styling - using only documented parameters
-    script.setAttribute('data-modal-header-bg-color', '#F8F9FA');
-    script.setAttribute('data-modal-header-border-bottom', '1px solid #CED4DA');
-    script.setAttribute('data-modal-header-padding', '20px');
-    script.setAttribute('data-modal-header-min-height', '48px');
-    script.setAttribute('data-modal-title-color', '#212529');
-    script.setAttribute('data-modal-title-font-size', '1.25rem');
-    script.setAttribute('data-modal-title-font-weight', '600');
-    script.setAttribute('data-modal-title-font-family', 'Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif');
+    // ── Modal header ────────────────────────────────────────────────────────
+    script.setAttribute('data-modal-header-background-color', '#0A1E3D')
+    script.setAttribute('data-modal-header-color', '#E8EDF5')
 
-    script.setAttribute('data-modal-body-bg-color', '#FFFFFF');
-    script.setAttribute('data-modal-body-padding-top', '8px');
-    script.setAttribute('data-modal-body-padding-right', '20px');
-    script.setAttribute('data-modal-body-padding-bottom', '20px');
-    script.setAttribute('data-modal-body-padding-left', '20px');
+    // ── Modal title ─────────────────────────────────────────────────────────
+    script.setAttribute('data-modal-title', 'Scout AI Assistant')
+    script.setAttribute('data-modal-title-text', 'Scout AI Assistant')
+    script.setAttribute('data-modal-open-on-command-k', 'true')
+    script.setAttribute('data-modal-z-index', '9999')
 
-    script.setAttribute('data-modal-overlay-bg-color', 'rgba(0, 0, 0, 0.6)');
-    script.setAttribute('data-modal-overlay-opacity', '1');
+    // ── Search ──────────────────────────────────────────────────────────────
+    script.setAttribute('data-search-mode-enabled', 'true')
+    script.setAttribute('data-search-mode-default', 'false')
 
-    script.setAttribute('data-modal-disclaimer-bg-color', '#F8F9FA');
-    script.setAttribute('data-modal-disclaimer-text-color', 'gray');
-    script.setAttribute('data-modal-disclaimer-font-size', '0.75rem');
+    // ── Disclaimer ──────────────────────────────────────────────────────────
+    script.setAttribute('data-disclaimer-background-color', '#0A1E3D')
+    script.setAttribute('data-disclaimer-color', '#C8DAF0')
+    script.setAttribute('data-disclaimer-font-size', '0.8rem')
 
-    script.setAttribute('data-hyperlink-color', '#0B1320');
+    // ── MCP button (matches Ask AI / Search button style) ───────────────────
+    script.setAttribute('data-mcp-button-hidden', 'false')
+    script.setAttribute('data-mcp-button-text', 'MCP')
+    script.setAttribute('data-mcp-button-background-color', 'transparent')
+    script.setAttribute('data-mcp-button-color', '#E8EDF5')
+    script.setAttribute('data-mcp-button-border', '1px solid #2A4A73')
+    script.setAttribute('data-mcp-button-border-radius', '6px')
+    script.setAttribute('data-mcp-button-font-size', '0.875rem')
+    script.setAttribute('data-mcp-button-font-weight', '500')
+    script.setAttribute('data-mcp-button-padding-x', '12px')
+    script.setAttribute('data-mcp-button-padding-y', '6px')
+    script.setAttribute('data-mcp-button-hover-background-color', '#0D2550')
+    script.setAttribute('data-mcp-button-hover-border-color', '#0C70F2')
 
-    // Search mode configuration
-    script.setAttribute('data-search-mode-enabled', 'true');
-    script.setAttribute('data-search-mode-default', 'false');
+    // ── MCP dropdown ────────────────────────────────────────────────────────
+    script.setAttribute('data-mcp-dropdown-background-color', '#0A1E3D')
+    script.setAttribute('data-mcp-dropdown-color', '#FFFFFF')
+    script.setAttribute('data-mcp-dropdown-border', '1px solid #2A4A73')
+    script.setAttribute('data-mcp-dropdown-border-radius', '8px')
+    script.setAttribute('data-mcp-dropdown-box-shadow', '0 8px 24px rgba(0,0,0,0.5)')
 
-    // Example questions and disclaimer - disabled
-    // script.setAttribute('data-modal-example-questions-title', 'Try asking Scout...');
-    // script.setAttribute('data-modal-example-questions', 'How do I enable PDF/A compliance?,How to batch process PDFs with APDFL?,How to convert PDF to image formats?,How can I redact text in a PDF?');
-    script.setAttribute('data-modal-disclaimer', '🐕 **Scout is your trusty AI companion** who helps track down answers to Datalogics questions by searching through our [documentation](https://dev.datalogics.com/), [website](https://www.datalogics.com/), [knowledge base](https://kb.datalogics.com) and [pinned github repo files](https://github.com/datalogics). Scout is here to help you find exactly what you\'re looking for.&#10;&#10;Scout ([built by kapa.ai](https://kapa.ai)) is deployed on our docs and website to guide you to the information you need.');
+    // ── Switch tabs (Ask AI / Search) ───────────────────────────────────────
+    script.setAttribute('data-switch-label-color', '#E8EDF5')
 
-    // Input placeholder text
-    script.setAttribute('data-modal-ask-ai-input-placeholder', 'Ask Scout about Datalogics PDF tools, APIs, or documentation...');
-    script.setAttribute('data-modal-search-input-placeholder', 'Search Datalogics documentation and resources...');
+    // ── Disclaimer text ─────────────────────────────────────────────────────
+    script.setAttribute('data-modal-disclaimer', '🐕 **Scout is your trusty AI companion** who helps track down answers to Datalogics questions by searching through our [documentation](https://dev.datalogics.com/), [website](https://www.datalogics.com/), [knowledge base](https://kb.datalogics.com) and [pinned github repo files](https://github.com/datalogics). Scout is here to help you find exactly what you\'re looking for.\n\nScout ([built by kapa.ai](https://kapa.ai)) is deployed on our website to guide you to the information you need.\n\nNeed a human? Use our [Contact Us form](https://www.datalogics.com/datalogics-contact-us) or [customer portal](https://portal.datalogics.com/s/login/), join our [Discord server](https://discord.gg/jNSHcSdRre), [talk to a developer](https://calendly.com/seu-datalogics), or email [Support@datalogics.com](mailto:Support@datalogics.com).')
 
-    // Feedback info text
-    script.setAttribute('data-answer-feedback-info-text', 'Your feedback helps us improve Scout\'s responses.');
+    // ── Input placeholders ──────────────────────────────────────────────────
+    script.setAttribute('data-ask-ai-input-placeholder', 'Ask Scout about Datalogics PDF tools, APIs, or documentation...')
+    script.setAttribute('data-search-input-placeholder', 'Search Datalogics documentation and resources...')
 
-    // Analytics
-    script.setAttribute('data-user-analytics-fingerprint-enabled', 'true');
-    script.setAttribute('data-user-satisfaction-feedback-enabled', 'true');
-
-    // Add the script to the document
-    document.head.appendChild(script);
-
-    // Wait for the script to load and initialize
+    // ── Feedback & analytics ────────────────────────────────────────────────
+    script.setAttribute('data-answer-feedback-info-text', 'Your feedback helps us improve Scout\'s responses.')
+    script.setAttribute('data-user-analytics-fingerprint-enabled', 'true')
+    script.setAttribute('data-user-satisfaction-feedback-enabled', 'true')
+    
+    document.head.appendChild(script)
+    
     script.onload = () => {
-      // Wait for the widget to fully initialize
-      setTimeout(() => {
-        // Check if the widget is accessible globally
-        if (typeof window !== 'undefined' && window.Kapa) {
-          // Mark widget as ready
-          window.kapaWidgetReady = true;
-
-          // Pre-render the widget so it's ready to open
-          if (typeof window.Kapa.render === 'function') {
-            window.Kapa.render({
-              onRender: () => {
-                // Widget is now ready to use
-              },
-            });
-          }
-        } else if (typeof window !== 'undefined' && window.kapaWidget) {
-          window.kapaWidgetReady = true;
+      const markReady = () => {
+        if (typeof window !== 'undefined' && (window.Kapa || window.kapaWidget)) {
+          window.kapaWidgetReady = true
+        } else {
+          setTimeout(markReady, 500)
         }
-      }, 2000);
-    };
-
+      }
+      markReady()
+    }
+    
     script.onerror = (error) => {
-      console.error('Failed to load Kapa.ai script:', error);
-    };
+      console.error('Failed to load Kapa.ai script:', error)
+    }
   }
 
-  // Function to check URL and open Kapa if needed
-  function checkAndOpenKapa() {
+  const checkAndOpenKapa = () => {
     if (typeof window !== 'undefined') {
-      const urlParams = new URLSearchParams(window.location.search);
+      const urlParams = new URLSearchParams(window.location.search)
       if (urlParams.get('askai') === 'true') {
-        const checkKapa = () => {
+        const tryOpen = () => {
           if (window.Kapa?.open) {
-            window.Kapa.open({ mode: 'ai', query: '', submit: false });
-          } else if (window.kapaWidget?.open) {
-            window.kapaWidget.open();
+            window.Kapa.open({ mode: "ai", query: "", submit: false })
           } else {
-            setTimeout(checkKapa, 500);
+            setTimeout(tryOpen, 500)
           }
-        };
-        checkKapa();
+        }
+        tryOpen()
       }
     }
   }
 
-  // Only run on client-side
-  if (typeof window !== 'undefined') {
-    // Initialize Kapa.ai when the app is mounted
+  if (process.client) {
     nuxtApp.hook('app:mounted', () => {
-      // Small delay to ensure DOM is ready
       setTimeout(() => {
-        initializeKapaWidget();
-        // Check URL params after initialization
-        checkAndOpenKapa();
-      }, 100);
-    });
+        initializeKapaWidget()
+        checkAndOpenKapa()
+      }, 100)
+    })
 
-    // Also watch for route changes
     nuxtApp.hook('page:finish', () => {
-      checkAndOpenKapa();
-    });
+      checkAndOpenKapa()
+    })
   }
-});
+})
