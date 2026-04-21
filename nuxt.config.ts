@@ -67,19 +67,13 @@ export default defineNuxtConfig({
   },
   shadcn: {
     prefix: 'Ui',
-    componentDir: join(currentDir, './components/ui'),
+    componentDir: '@/components/ui',
   },
   components: [
     // Content components (no prefix) - for use in markdown files
     {
       path: './components/content',
       pathPrefix: false,
-      global: false,
-    },
-    // UI components (Ui prefix) - shadcn-vue components
-    {
-      path: './components/ui',
-      prefix: 'Ui',
       global: false,
     },
     // Layout components (Layout prefix)
@@ -142,6 +136,17 @@ export default defineNuxtConfig({
         ['ConfigProvider', 'Toaster'].includes(c.pascalName),
       );
       globals.forEach(c => c.global = true);
+    },
+    // Workaround for nuxt/nuxt#34812 / unjs/unimport#524:
+    // unimport@6.1.0 surfaced a pre-existing duplicate where both nitropack and
+    // @nuxt/nitro-server register useAppConfig. Filtering the nitro-server override
+    // here leaves only the nitropack default and silences the warning.
+    // Safe because no server routes in this project call useAppConfig(event).
+    'nitro:config': (nitroConfig) => {
+      const imports = (nitroConfig as { imports?: { imports?: Array<{ name?: string }> } }).imports;
+      if (imports?.imports) {
+        imports.imports = imports.imports.filter(i => i?.name !== 'useAppConfig');
+      }
     },
   },
   studio: {
