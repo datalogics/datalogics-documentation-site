@@ -25,15 +25,17 @@
     "types"
   ],
   "scripts": {
-    "build": "nuxt build",
-    "build:prod": "nuxt build",
+    "build": "mdclint \"content/**/*.md\" --fix && nuxt build",
+    "build:prod": "mdclint \"content/**/*.md\" --fix && nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "typecheck": "nuxt typecheck",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "lint:md": "mdclint \"content/**/*.md\"",
+    "lint:md:fix": "mdclint \"content/**/*.md\" --fix"
   },
   "dependencies": {
     "@auth0/auth0-nuxt": "^1.1.0",
@@ -50,7 +52,7 @@
     "minisearch": "^7.2.0",
     "nuxt": "^4.4.2",
     "nuxt-gtag": "^3.0.3",
-    "nuxt-studio": "^1.6.0",
+    "nuxt-studio": "^1.7.0",
     "radix-vue": "^1.9.17",
     "shadcn-nuxt": "^2.6.2",
     "tailwind-merge": "^2.6.1",
@@ -76,6 +78,7 @@
     "@vueuse/core": "^14.2.1",
     "@vueuse/nuxt": "^14.2.1",
     "eslint": "^9.39.4",
+    "mdclint": "latest",
     "nuxt-component-meta": "^0.17.2",
     "unplugin": "^3.0.0",
     "shiki": "^1.29.2",
